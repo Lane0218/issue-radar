@@ -12,6 +12,7 @@ DEFAULT_REPOS_CONFIG = ROOT / "config" / "repos.yaml"
 DEFAULT_PROFILE_CONFIG = ROOT / "config" / "profile.yaml"
 DEFAULT_RAW_OUTPUT = ROOT / "data" / "raw" / "issues.json"
 DEFAULT_ANALYZED_OUTPUT = ROOT / "data" / "enriched" / "issues.analyzed.json"
+DEFAULT_ANALYSIS_STATE_FILE = ROOT / "data" / "state" / "analyzed_issues.json"
 DEFAULT_STATE_FILE = ROOT / "data" / "state" / "notified_issues.json"
 
 
@@ -23,7 +24,7 @@ class RepoQuery:
     query: str
     sort: str = "created"
     order: str = "desc"
-    max_issues: int = 20
+    max_issues: int = 5
     max_comments: int = 30
 
 

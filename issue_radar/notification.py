@@ -35,16 +35,18 @@ def render_email(candidates: list[dict[str, Any]]) -> tuple[str, str]:
                 f"- {item['repository']} #{item['number']} {item['title']}",
                 f"  链接: {item['html_url']}",
                 f"  推荐指数: {item['recommend_score']}",
-                f"  是否有人做: {item['claim_status']}",
+                f"  认领状态: {item['claim_state']}",
                 f"  难度: {item['difficulty']}",
                 f"  类别: {item['category']}",
                 f"  适配度: {item['fit_for_user']}",
                 f"  认领依据: {item['claim_reason']}",
                 f"  适合原因: {item['fit_reason']}",
                 f"  推荐原因: {item['recommend_reason']}",
-                "",
             ]
         )
+        if item["claim_state"] == "maybe_claimed":
+            lines.append("  提醒: 存在非机器人评论，建议先人工确认是否已有人跟进。")
+        lines.append("")
     return subject, "\n".join(lines).strip() + "\n"
 
 

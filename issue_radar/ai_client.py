@@ -13,7 +13,7 @@ class AIClient:
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
         self.model = model
-        self.timeout = int(os.environ.get("AI_TIMEOUT_SECONDS", "30"))
+        self.timeout = int(os.environ.get("AI_TIMEOUT_SECONDS", "60"))
         self.max_tokens = int(os.environ.get("AI_MAX_TOKENS", "500"))
         self.session = requests.Session()
         self.session.headers.update(

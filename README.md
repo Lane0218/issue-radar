@@ -1,9 +1,9 @@
 # issue-radar
 
-定时抓取 GitHub issue，读取正文与评论，调用兼容 OpenAI 协议的模型分析：
-- 这个 issue 有没有明显被别人接手
-- 难度和类别是否适合你
-- 是否值得发通知
+定时抓取 GitHub issue，读取正文与评论，并分两层判断：
+- 规则层判断认领状态：`claimed / maybe_claimed / open`
+- AI 只判断难度、类别、适配度和推荐指数
+- 只对新 issue 做 AI 分析，避免重复调用模型
 
 第一版默认监控 `llvm/llvm-project` 的 `good first issue`。
 
@@ -11,6 +11,7 @@
 - 通过 GitHub API 抓取 issue、评论、timeline 事件
 - 输出原始 JSON 到 `data/raw/issues.json`
 - 调用 AI 输出分析结果到 `data/enriched/issues.analyzed.json`
+- 维护 `data/state/analyzed_issues.json`，只分析新 issue
 - 结合你的画像生成推荐指数
 - 去重后为高分 issue 生成邮件通知
 - 支持 GitHub Actions 每 30 分钟执行一次
@@ -31,6 +32,8 @@ python3 scripts/notify.py
 - `AI_BASE_URL`
 - `AI_API_KEY`
 - `AI_MODEL`
+- `AI_TIMEOUT_SECONDS`，默认 `60`
+- `AI_MAX_WORKERS`，默认 `3`
 
 默认实现按 OpenAI-compatible 接口调用，第一版建议接 Qwen。
 
@@ -63,7 +66,9 @@ python3 scripts/notify.py
 
 工作流会：
 1. 抓取 issue
-2. 调用 AI 分析
-3. 判断是否需要通知
-4. 如有需要，发送邮件
-5. 更新 `data/state/notified_issues.json`，避免重复通知
+2. 规则层识别 `claimed / maybe_claimed / open`
+3. 只对新 issue 进行 AI 分析
+4. `claimed` 直接跳过 AI
+5. 判断是否需要通知
+6. 如有需要，发送邮件
+7. 更新 `data/state/notified_issues.json` 和 `data/state/analyzed_issues.json`

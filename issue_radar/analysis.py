@@ -28,6 +28,9 @@ CATEGORY_VALUES = {"compiler", "mlir", "llvm", "frontend", "docs", "tests", "oth
 DIFFICULTY_VALUES = {"low", "medium_low", "too_hard", "unclear"}
 FIT_VALUES = {"good_fit", "possible_fit", "poor_fit"}
 CLAIM_VALUES = {"claimed", "unclaimed"}
+MAX_AI_COMMENTS = 8
+MAX_AI_COMMENT_CHARS = 400
+MAX_AI_BODY_CHARS = 2500
 
 
 def build_heuristics(issue_bundle: dict[str, Any], profile: dict[str, Any]) -> dict[str, Any]:
@@ -92,14 +95,15 @@ def normalize_preferred_domains(values: list[Any]) -> set[str]:
 
 def build_ai_prompts(issue_bundle: dict[str, Any], profile: dict[str, Any], heuristics: dict[str, Any]) -> tuple[str, str]:
     issue = issue_bundle["issue"]
+    raw_comments = issue_bundle.get("comments", [])
     compact_comments = [
         {
             "author": comment.get("author"),
             "author_association": comment.get("author_association"),
             "created_at": comment.get("created_at"),
-            "body": truncate_text(comment.get("body") or "", 1200),
+            "body": truncate_text(comment.get("body") or "", MAX_AI_COMMENT_CHARS),
         }
-        for comment in issue_bundle.get("comments", [])
+        for comment in raw_comments[:MAX_AI_COMMENTS]
     ]
 
     user_payload = {
@@ -109,13 +113,17 @@ def build_ai_prompts(issue_bundle: dict[str, Any], profile: dict[str, Any], heur
             "repository": issue_bundle.get("repository"),
             "number": issue.get("number"),
             "title": issue.get("title"),
-            "body": truncate_text(issue.get("body") or "", 6000),
+            "body": truncate_text(issue.get("body") or "", MAX_AI_BODY_CHARS),
             "labels": [label.get("name") for label in issue.get("labels", [])],
             "assignees": [item.get("login") for item in issue.get("assignees", [])],
             "created_at": issue.get("created_at"),
             "updated_at": issue.get("updated_at"),
             "comments_count": issue.get("comments_count"),
             "linked_pull_requests": heuristics.get("linked_pull_requests", []),
+            "comment_sample_note": (
+                f"Only the first {min(len(raw_comments), MAX_AI_COMMENTS)} comments are included, "
+                f"each truncated to {MAX_AI_COMMENT_CHARS} characters."
+            ),
             "comments": compact_comments,
         },
     }

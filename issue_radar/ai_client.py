@@ -14,6 +14,7 @@ class AIClient:
         self.api_key = api_key
         self.model = model
         self.timeout = int(os.environ.get("AI_TIMEOUT_SECONDS", "30"))
+        self.max_tokens = int(os.environ.get("AI_MAX_TOKENS", "500"))
         self.session = requests.Session()
         self.session.headers.update(
             {
@@ -35,6 +36,8 @@ class AIClient:
         payload = {
             "model": self.model,
             "temperature": 0.2,
+            "max_tokens": self.max_tokens,
+            "response_format": {"type": "json_object"},
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},

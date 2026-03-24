@@ -241,6 +241,8 @@ def main() -> int:
                                 "fit_reason": "AI analysis failed, using fallback defaults.",
                                 "recommend_score": 40,
                                 "recommend_reason": f"Fallback score because AI response was unavailable: {exc}",
+                                "issue_summary_zh": f"该 issue 的标题是：{issue['title']}。AI 未能生成更详细的中文简介。",
+                                "work_needed_zh": "需要先阅读 issue 正文与上下文，确认问题现象、影响范围，以及可能的修复方向。",
                             },
                             heuristics,
                             claim_state=claim_state,

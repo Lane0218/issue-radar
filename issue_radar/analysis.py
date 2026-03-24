@@ -169,11 +169,13 @@ def build_ai_prompts(issue_bundle: dict[str, Any], profile: dict[str, Any]) -> t
     system_prompt = (
         "You analyze GitHub issues for a developer. "
         "Reply with JSON only. "
-        "Required keys: difficulty, category, fit_for_user, fit_reason, recommend_score, recommend_reason. "
+        "Required keys: difficulty, category, fit_for_user, fit_reason, recommend_score, recommend_reason, issue_summary_zh, work_needed_zh. "
         "difficulty must be low, medium_low, too_hard, or unclear. "
         "category must be compiler, mlir, llvm, frontend, docs, tests, or other. "
         "fit_for_user must be good_fit, possible_fit, or poor_fit. "
         "recommend_score must be an integer from 0 to 100. "
+        "issue_summary_zh must be concise Simplified Chinese explaining what the issue is. "
+        "work_needed_zh must be concise Simplified Chinese explaining what work the contributor likely needs to do. "
         "Do not include claim status or assignment analysis."
     )
     return system_prompt, json.dumps(user_payload, ensure_ascii=False, indent=2)
@@ -196,6 +198,13 @@ def normalize_ai_result(raw: dict[str, Any]) -> dict[str, Any]:
     except (TypeError, ValueError):
         recommend_score = 50
 
+    issue_summary_zh = str(raw.get("issue_summary_zh", "")).strip()
+    work_needed_zh = str(raw.get("work_needed_zh", "")).strip()
+    if not issue_summary_zh:
+        issue_summary_zh = "该 issue 需要先阅读标题与正文，确认它描述的问题背景和目标。"
+    if not work_needed_zh:
+        work_needed_zh = "需要阅读 issue 内容，定位问题点，并根据上下文完成修复、补测试或补充说明。"
+
     return {
         "difficulty": difficulty,
         "category": category,
@@ -203,6 +212,8 @@ def normalize_ai_result(raw: dict[str, Any]) -> dict[str, Any]:
         "fit_reason": str(raw.get("fit_reason", "")).strip(),
         "recommend_score": clamp(recommend_score),
         "recommend_reason": str(raw.get("recommend_reason", "")).strip(),
+        "issue_summary_zh": issue_summary_zh,
+        "work_needed_zh": work_needed_zh,
     }
 
 
@@ -214,6 +225,8 @@ def build_skip_ai_result(claim_state: str, claim_reason: str) -> dict[str, Any]:
         "fit_reason": f"Skipped AI analysis because claim_state={claim_state}.",
         "recommend_score": 0,
         "recommend_reason": f"Skipped AI analysis because this issue is {claim_state}.",
+        "issue_summary_zh": "该 issue 未进行 AI 摘要生成。",
+        "work_needed_zh": "该 issue 未进行 AI 工作项分析。",
         "claim_state": claim_state,
         "claim_reason": claim_reason,
     }

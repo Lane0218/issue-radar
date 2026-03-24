@@ -40,6 +40,8 @@ def render_email(candidates: list[dict[str, Any]]) -> tuple[str, str]:
                 f"  命中查询: {', '.join(item.get('matched_queries', [])) or '-'}",
                 f"  难度: {item['difficulty']}",
                 f"  类别: {item['category']}",
+                f"  这个 issue 是什么: {item.get('issue_summary_zh', '') or '-'}",
+                f"  需要做什么工作: {item.get('work_needed_zh', '') or '-'}",
                 f"  适配度: {item['fit_for_user']}",
                 f"  认领依据: {item['claim_reason']}",
                 f"  适合原因: {item['fit_reason']}",

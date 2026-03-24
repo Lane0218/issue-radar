@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "issue-radar"
+version = "0.1.0"
+description = "Monitor GitHub issues and rank them for personal fit using AI."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "requests>=2.31.0",
+  "PyYAML>=6.0.1",
+]
+
+[tool.setuptools.packages.find]
+include = ["issue_radar*"]

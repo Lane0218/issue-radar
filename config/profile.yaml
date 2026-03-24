@@ -1,0 +1,19 @@
+languages:
+  - Python
+  - C++
+
+preferred_domains:
+  - 编译器
+  - MLIR
+  - LLVM
+  - 前端
+  - 文档
+  - 测试
+
+preferred_difficulty:
+  - 低
+  - 中低
+
+avoid_topics:
+  - 过重的构建系统
+  - 纯底层汇编

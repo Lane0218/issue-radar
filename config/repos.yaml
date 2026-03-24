@@ -1,0 +1,11 @@
+notify_threshold: 80
+
+repositories:
+  - key: llvm-project-good-first-issue
+    owner: llvm
+    repo: llvm-project
+    query: 'is:issue is:open label:"good first issue"'
+    sort: created
+    order: desc
+    max_issues: 20
+    max_comments: 30

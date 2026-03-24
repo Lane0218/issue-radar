@@ -1,3 +1,76 @@
 {
-  "issues": {}
+  "issues": {
+    "llvm/llvm-project#185880": {
+      "seen_at": "2026-03-24T09:16:05+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 185880,
+      "title": "[DAG] SDPatternMatch - add m_FShL / m_FShR / m_FShLLike / m_FShRLike matchers",
+      "created_at": "2026-03-11T13:37:31Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#185949": {
+      "seen_at": "2026-03-24T09:16:05+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 185949,
+      "title": "[Coroutines] Improve profile information for the entry block of Coroutines",
+      "created_at": "2026-03-11T18:18:58Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#186274": {
+      "seen_at": "2026-03-24T09:16:05+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 186274,
+      "title": "performance optimization: special-case deduction for variables of type `auto`",
+      "created_at": "2026-03-12T23:01:58Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187302": {
+      "seen_at": "2026-03-24T09:16:05+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187302,
+      "title": "[WebAssembly] eh regression from llvm 20 to 21 with nested catchpads",
+      "created_at": "2026-03-18T15:28:47Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187404": {
+      "seen_at": "2026-03-24T09:16:05+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187404,
+      "title": "[libc][hdrgen] Extend `guard` attribute support for `types`",
+      "created_at": "2026-03-18T23:37:46Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187675": {
+      "seen_at": "2026-03-24T09:16:05+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187675,
+      "title": "-Wdangling-field detects view members initalized from a by-value owner parameter",
+      "created_at": "2026-03-20T11:09:05Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188062": {
+      "seen_at": "2026-03-24T09:16:05+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188062,
+      "title": "[Clang] VectorExprEvaluator::VisitCallExpr / InterpretBuiltin - add MMX/SSE/AVX/AVX512 VPSADBW intrinsics to be used in constexpr",
+      "created_at": "2026-03-23T16:25:18Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187930": {
+      "seen_at": "2026-03-24T09:16:30+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187930,
+      "title": "[llvm-exegesis] Allow custom PFM counters",
+      "created_at": "2026-03-22T13:56:25Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#186520": {
+      "seen_at": "2026-03-24T09:16:34+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 186520,
+      "title": "[ControlHeightReductionPass] Crash when compiling using profile data with PGO: Assertion `!NodePtr->isKnownSentinel()' failed.",
+      "created_at": "2026-03-13T21:43:23Z",
+      "claim_state_at_first_seen": "open"
+    }
+  }
 }

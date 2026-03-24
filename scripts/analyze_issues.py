@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import logging
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -60,9 +61,11 @@ def _analyze_candidate(
     profile: dict[str, Any],
     notify_threshold: int,
 ) -> dict[str, Any]:
+    logger = logging.getLogger("analyze_issues")
     heuristics = build_heuristics(bundle, profile)
     claim_state, claim_reason = determine_claim_state(bundle, heuristics)
     issue = bundle["issue"]
+    issue_key = _issue_key(bundle)
     base = {
         "query_key": bundle["query_key"],
         "matched_queries": bundle.get("matched_queries", [bundle["query_key"]]),
@@ -91,17 +94,41 @@ def _analyze_candidate(
 
     system_prompt, user_prompt = build_ai_prompts(bundle, profile)
     ai_client = AIClient.from_env()
-    ai_raw = ai_client.analyze_issue(system_prompt, user_prompt)
-    ai_result = normalize_ai_result(ai_raw)
-    final = apply_post_rules(
-        bundle,
-        ai_result,
-        heuristics,
-        claim_state=claim_state,
-        claim_reason=claim_reason,
-        notify_threshold=notify_threshold,
-    )
-    return base | final
+    max_attempts = 2
+    last_error: Exception | None = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            ai_raw = ai_client.analyze_issue(system_prompt, user_prompt)
+            ai_result = normalize_ai_result(ai_raw)
+            final = apply_post_rules(
+                bundle,
+                ai_result,
+                heuristics,
+                claim_state=claim_state,
+                claim_reason=claim_reason,
+                notify_threshold=notify_threshold,
+            )
+            return base | final
+        except Exception as exc:  # noqa: BLE001
+            last_error = exc
+            if attempt < max_attempts:
+                logger.warning(
+                    "AI request failed for %s on attempt %s/%s: %s; retrying once",
+                    issue_key,
+                    attempt,
+                    max_attempts,
+                    exc,
+                )
+            else:
+                logger.warning(
+                    "AI request failed for %s on attempt %s/%s: %s; dropping issue from analyzed results",
+                    issue_key,
+                    attempt,
+                    max_attempts,
+                    exc,
+                )
+    assert last_error is not None
+    raise last_error
 
 
 def main() -> int:
@@ -144,13 +171,13 @@ def main() -> int:
 
     analyzed: list[dict[str, Any]] = []
     ai_candidates = []
+    skipped_claimed = 0
     for bundle in new_bundles:
         heuristics = build_heuristics(bundle, profile)
         claim_state, claim_reason = determine_claim_state(bundle, heuristics)
         issue_key = _issue_key(bundle)
 
         if claim_state == "claimed":
-            issue = bundle["issue"]
             logger.info(
                 "Skipping AI for %s because claim_state=%s reason=%s",
                 issue_key,
@@ -158,35 +185,17 @@ def main() -> int:
                 claim_reason,
             )
             seen_issues[issue_key] = _build_state_entry(bundle, claim_state)
-            final = apply_post_rules(
-                bundle,
-                build_skip_ai_result(claim_state, claim_reason),
-                heuristics,
-                claim_state=claim_state,
-                claim_reason=claim_reason,
-                notify_threshold=monitor_config.notify_threshold,
-            )
-            analyzed.append(
-                {
-                    "query_key": bundle["query_key"],
-                    "matched_queries": bundle.get("matched_queries", [bundle["query_key"]]),
-                    "source_signals": bundle.get("source_signals", []),
-                    "repository": bundle["repository"],
-                    "number": issue["number"],
-                    "title": issue["title"],
-                    "html_url": issue["html_url"],
-                    "created_at": issue["created_at"],
-                    "updated_at": issue["updated_at"],
-                    "labels": [label["name"] for label in issue.get("labels", [])],
-                    "assignees": [item["login"] for item in issue.get("assignees", [])],
-                    "linked_pull_requests": bundle.get("linked_pull_requests", []),
-                }
-                | final
-            )
+            skipped_claimed += 1
             continue
 
         ai_candidates.append(bundle)
         logger.info("Queued %s for AI analysis with claim_state=%s", issue_key, claim_state)
+
+    logger.info(
+        "Prepared %s AI candidates after skipping %s claimed issues",
+        len(ai_candidates),
+        skipped_claimed,
+    )
 
     if ai_candidates:
         logger.info("Starting AI analysis for %s issues with concurrency=%s", len(ai_candidates), max_workers)
@@ -195,9 +204,9 @@ def main() -> int:
                 executor.submit(_analyze_candidate, bundle, profile, monitor_config.notify_threshold): bundle
                 for bundle in ai_candidates
             }
+            dropped_count = 0
             for future in as_completed(future_map):
                 bundle = future_map[future]
-                issue = bundle["issue"]
                 issue_key = _issue_key(bundle)
                 logger.info("Awaiting AI result for %s", issue_key)
                 try:
@@ -213,49 +222,20 @@ def main() -> int:
                         final["should_notify"],
                     )
                     seen_issues[issue_key] = _build_state_entry(bundle, final["claim_state"])
-                except Exception as exc:
-                    heuristics = build_heuristics(bundle, profile)
-                    claim_state, claim_reason = determine_claim_state(bundle, heuristics)
-                    logger.warning("AI analysis failed for %s, using fallback defaults: %s", issue_key, exc)
-                    final = (
-                        {
-                            "query_key": bundle["query_key"],
-                            "matched_queries": bundle.get("matched_queries", [bundle["query_key"]]),
-                            "source_signals": bundle.get("source_signals", []),
-                            "repository": bundle["repository"],
-                            "number": issue["number"],
-                            "title": issue["title"],
-                            "html_url": issue["html_url"],
-                            "created_at": issue["created_at"],
-                            "updated_at": issue["updated_at"],
-                            "labels": [label["name"] for label in issue.get("labels", [])],
-                            "assignees": [item["login"] for item in issue.get("assignees", [])],
-                            "linked_pull_requests": bundle.get("linked_pull_requests", []),
-                        }
-                        | apply_post_rules(
-                            bundle,
-                            {
-                                "difficulty": "unclear",
-                                "category": "other",
-                                "fit_for_user": "possible_fit",
-                                "fit_reason": "AI analysis failed, using fallback defaults.",
-                                "recommend_score": 40,
-                                "recommend_reason": f"Fallback score because AI response was unavailable: {exc}",
-                                "issue_summary_zh": f"该 issue 的标题是：{issue['title']}。AI 未能生成更详细的中文简介。",
-                                "work_needed_zh": "需要先阅读 issue 正文与上下文，确认问题现象、影响范围，以及可能的修复方向。",
-                            },
-                            heuristics,
-                            claim_state=claim_state,
-                            claim_reason=claim_reason,
-                            notify_threshold=monitor_config.notify_threshold,
-                        )
+                    analyzed.append(final)
+                except Exception as exc:  # noqa: BLE001
+                    dropped_count += 1
+                    logger.warning(
+                        "Dropping %s after AI failure. It will not be written to analyzed results: %s",
+                        issue_key,
+                        exc,
                     )
-                analyzed.append(final)
+            logger.info("Dropped %s issues after AI failures", dropped_count)
 
     analyzed.sort(key=lambda item: item["recommend_score"], reverse=True)
     dump_json(args.output, analyzed)
     dump_json(args.state, {"issues": seen_issues})
-    logger.info("Analyzed %s new issues into %s", len(analyzed), args.output)
+    logger.info("Wrote %s successfully analyzed issues into %s", len(analyzed), args.output)
     logger.info("Updated analysis state in %s", args.state)
     return 0
 

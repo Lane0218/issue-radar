@@ -36,6 +36,8 @@ def render_email(candidates: list[dict[str, Any]]) -> tuple[str, str]:
                 f"  链接: {item['html_url']}",
                 f"  推荐指数: {item['recommend_score']}",
                 f"  认领状态: {item['claim_state']}",
+                f"  命中来源: {', '.join(item.get('source_signals', [])) or '-'}",
+                f"  命中查询: {', '.join(item.get('matched_queries', [])) or '-'}",
                 f"  难度: {item['difficulty']}",
                 f"  类别: {item['category']}",
                 f"  适配度: {item['fit_for_user']}",

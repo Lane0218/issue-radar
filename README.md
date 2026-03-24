@@ -6,9 +6,11 @@
 - 只对新 issue 做 AI 分析，避免重复调用模型
 
 第一版默认监控 `llvm/llvm-project` 的 `good first issue`。
+现在也会补充抓取 `docs/tests/cleanup` 一类低门槛信号，不再只依赖 `good first issue`。
 
 ## 能力
 - 通过 GitHub API 抓取 issue、评论、timeline 事件
+- 在同一仓库内支持多条查询，并按 issue 去重合并
 - 输出原始 JSON 到 `data/raw/issues.json`
 - 调用 AI 输出分析结果到 `data/enriched/issues.analyzed.json`
 - 维护 `data/state/analyzed_issues.json`，只分析新 issue
@@ -41,6 +43,7 @@ python3 scripts/notify.py
 ### `config/repos.yaml`
 - 监控仓库
 - GitHub 搜索条件
+- 每条查询的 `source_signals`
 - 抓取上限
 - 通知阈值
 
@@ -69,6 +72,7 @@ python3 scripts/notify.py
 2. 规则层识别 `claimed / maybe_claimed / open`
 3. 只对新 issue 进行 AI 分析
 4. `claimed` 直接跳过 AI
+5. 同一 issue 被多个查询命中时会合并 `matched_queries/source_signals`
 5. 判断是否需要通知
 6. 如有需要，发送邮件
 7. 更新 `data/state/notified_issues.json` 和 `data/state/analyzed_issues.json`

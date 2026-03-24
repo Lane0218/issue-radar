@@ -34,6 +34,15 @@ DIFFICULTY_VALUES = {"low", "medium_low", "too_hard", "unclear"}
 FIT_VALUES = {"good_fit", "possible_fit", "poor_fit"}
 MAX_AI_BODY_CHARS = 2200
 KNOWN_BOTS = {"llvmbot"}
+SOURCE_SIGNAL_WEIGHTS = {
+    "good_first_issue": 10,
+    "docs": 6,
+    "tests": 6,
+    "cleanup": 6,
+    "documentation_keyword": 3,
+    "cleanup_keyword": 3,
+}
+SOURCE_SIGNAL_CAP = 14
 
 
 def is_bot_author(author: str | None) -> bool:
@@ -210,6 +219,18 @@ def build_skip_ai_result(claim_state: str, claim_reason: str) -> dict[str, Any]:
     }
 
 
+def compute_source_signal_bonus(source_signals: list[str]) -> tuple[int, list[str]]:
+    bonus = 0
+    adjustments: list[str] = []
+    for signal in source_signals:
+        weight = SOURCE_SIGNAL_WEIGHTS.get(signal, 0)
+        if weight <= 0:
+            continue
+        bonus += weight
+        adjustments.append(f"{signal} +{weight}")
+    return min(bonus, SOURCE_SIGNAL_CAP), adjustments
+
+
 def apply_post_rules(
     issue_bundle: dict[str, Any],
     ai_result: dict[str, Any],
@@ -222,6 +243,9 @@ def apply_post_rules(
     result = dict(ai_result)
     adjustments: list[str] = []
     score = int(result["recommend_score"])
+    source_signal_bonus, source_adjustments = compute_source_signal_bonus(
+        issue_bundle.get("source_signals", [])
+    )
 
     if claim_state == "claimed":
         score = min(score, 35)
@@ -252,10 +276,9 @@ def apply_post_rules(
         score += 8
         adjustments.append("preferred_category +8")
 
-    labels = {label.get("name", "").lower() for label in issue_bundle["issue"].get("labels", [])}
-    if "good first issue" in labels:
-        score += 10
-        adjustments.append("good_first_issue +10")
+    if source_signal_bonus:
+        score += source_signal_bonus
+        adjustments.extend(source_adjustments)
 
     if heuristics.get("matched_avoid_topics"):
         score = min(score, 30)
@@ -269,6 +292,7 @@ def apply_post_rules(
     result["claim_reason"] = claim_reason
     result["recommend_score"] = score
     result["score_adjustments"] = adjustments
+    result["source_score_adjustments"] = source_adjustments
     result["should_notify"] = (
         claim_state in {"open", "maybe_claimed"}
         and result["difficulty"] in {"low", "medium_low"}

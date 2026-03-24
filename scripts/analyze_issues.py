@@ -65,6 +65,8 @@ def _analyze_candidate(
     issue = bundle["issue"]
     base = {
         "query_key": bundle["query_key"],
+        "matched_queries": bundle.get("matched_queries", [bundle["query_key"]]),
+        "source_signals": bundle.get("source_signals", []),
         "repository": bundle["repository"],
         "number": issue["number"],
         "title": issue["title"],
@@ -167,6 +169,8 @@ def main() -> int:
             analyzed.append(
                 {
                     "query_key": bundle["query_key"],
+                    "matched_queries": bundle.get("matched_queries", [bundle["query_key"]]),
+                    "source_signals": bundle.get("source_signals", []),
                     "repository": bundle["repository"],
                     "number": issue["number"],
                     "title": issue["title"],
@@ -216,6 +220,8 @@ def main() -> int:
                     final = (
                         {
                             "query_key": bundle["query_key"],
+                            "matched_queries": bundle.get("matched_queries", [bundle["query_key"]]),
+                            "source_signals": bundle.get("source_signals", []),
                             "repository": bundle["repository"],
                             "number": issue["number"],
                             "title": issue["title"],

@@ -5,7 +5,64 @@ repositories:
     owner: llvm
     repo: llvm-project
     query: 'is:issue is:open label:"good first issue"'
+    source_signals:
+      - good_first_issue
     sort: created
     order: desc
     max_issues: 5
+    max_comments: 30
+
+  - key: llvm-project-docs
+    owner: llvm
+    repo: llvm-project
+    query: 'is:issue is:open label:docs'
+    source_signals:
+      - docs
+    sort: created
+    order: desc
+    max_issues: 3
+    max_comments: 30
+
+  - key: llvm-project-tests
+    owner: llvm
+    repo: llvm-project
+    query: 'is:issue is:open label:tests'
+    source_signals:
+      - tests
+    sort: created
+    order: desc
+    max_issues: 3
+    max_comments: 30
+
+  - key: llvm-project-code-cleanup
+    owner: llvm
+    repo: llvm-project
+    query: 'is:issue is:open label:"code cleanup"'
+    source_signals:
+      - cleanup
+    sort: created
+    order: desc
+    max_issues: 3
+    max_comments: 30
+
+  - key: llvm-project-documentation-keyword
+    owner: llvm
+    repo: llvm-project
+    query: 'is:issue is:open documentation'
+    source_signals:
+      - documentation_keyword
+    sort: created
+    order: desc
+    max_issues: 3
+    max_comments: 30
+
+  - key: llvm-project-cleanup-keyword
+    owner: llvm
+    repo: llvm-project
+    query: 'is:issue is:open cleanup'
+    source_signals:
+      - cleanup_keyword
+    sort: created
+    order: desc
+    max_issues: 3
     max_comments: 30

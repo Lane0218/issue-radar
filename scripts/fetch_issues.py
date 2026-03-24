@@ -67,6 +67,10 @@ def _serialize_timeline_event(event: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _bundle_key(repository_name: str, number: int) -> str:
+    return f"{repository_name}#{number}"
+
+
 def main() -> int:
     logger = setup_logging("fetch_issues")
     args = _parse_args()
@@ -76,7 +80,7 @@ def main() -> int:
     logger.info("GitHub token available: %s", "yes" if token else "no")
     client = GitHubClient(token=token)
     fetched_at = now_iso()
-    bundles: list[dict[str, Any]] = []
+    bundles_by_key: dict[str, dict[str, Any]] = {}
 
     for repo_config in config.repositories:
         repository_name = f"{repo_config.owner}/{repo_config.repo}"
@@ -100,6 +104,20 @@ def main() -> int:
         logger.info("Search returned %s issues for %s", len(search_results), repository_name)
         for index, item in enumerate(search_results, start=1):
             number = int(item["number"])
+            issue_key = _bundle_key(repository_name, number)
+            if issue_key in bundles_by_key:
+                existing = bundles_by_key[issue_key]
+                existing["matched_queries"].append(repo_config.key)
+                existing["source_signals"] = sorted(
+                    set(existing["source_signals"]) | set(repo_config.source_signals)
+                )
+                logger.info(
+                    "Merged duplicate hit for %s via query=%s signals=%s",
+                    issue_key,
+                    repo_config.key,
+                    ",".join(repo_config.source_signals),
+                )
+                continue
             logger.info("Fetching issue %s/%s: %s#%s", index, len(search_results), repository_name, number)
             issue = client.get_issue(repo_config.owner, repo_config.repo, number)
             comments = client.get_issue_comments(
@@ -119,21 +137,25 @@ def main() -> int:
                 len(timeline),
                 len(linked_pull_requests),
             )
-            bundles.append(
-                {
-                    "query_key": repo_config.key,
-                    "query": repo_config.query,
-                    "repository": repository_name,
-                    "fetched_at": fetched_at,
-                    "issue": _serialize_issue(issue),
-                    "comments": [_serialize_comment(comment) for comment in comments],
-                    "timeline": [_serialize_timeline_event(event) for event in timeline],
-                    "linked_pull_requests": linked_pull_requests,
-                }
-            )
+            bundles_by_key[issue_key] = {
+                "query_key": repo_config.key,
+                "query": repo_config.query,
+                "matched_queries": [repo_config.key],
+                "source_signals": sorted(set(repo_config.source_signals)),
+                "repository": repository_name,
+                "fetched_at": fetched_at,
+                "issue": _serialize_issue(issue),
+                "comments": [_serialize_comment(comment) for comment in comments],
+                "timeline": [_serialize_timeline_event(event) for event in timeline],
+                "linked_pull_requests": linked_pull_requests,
+            }
 
+    bundles = sorted(
+        bundles_by_key.values(),
+        key=lambda item: (item["repository"], item["issue"]["number"]),
+    )
     dump_json(args.output, bundles)
-    logger.info("Fetched %s issues into %s", len(bundles), args.output)
+    logger.info("Fetched %s unique issues into %s", len(bundles), args.output)
     return 0
 
 

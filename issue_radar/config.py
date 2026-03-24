@@ -22,6 +22,7 @@ class RepoQuery:
     owner: str
     repo: str
     query: str
+    source_signals: list[str]
     sort: str = "created"
     order: str = "desc"
     max_issues: int = 5

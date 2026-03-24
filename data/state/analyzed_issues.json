@@ -39,6 +39,38 @@
       "title": "[DAG] SDPatternMatch - add m_FShL / m_FShR / m_FShLLike / m_FShRLike matchers",
       "created_at": "2026-03-11T13:37:31Z",
       "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#185949": {
+      "seen_at": "2026-03-24T05:51:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 185949,
+      "title": "[Coroutines] Improve profile information for the entry block of Coroutines",
+      "created_at": "2026-03-11T18:18:58Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187302": {
+      "seen_at": "2026-03-24T05:51:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187302,
+      "title": "[WebAssembly] eh regression from llvm 20 to 21 with nested catchpads",
+      "created_at": "2026-03-18T15:28:47Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187930": {
+      "seen_at": "2026-03-24T05:51:29+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187930,
+      "title": "[llvm-exegesis] Allow custom PFM counters",
+      "created_at": "2026-03-22T13:56:25Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#186520": {
+      "seen_at": "2026-03-24T05:51:43+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 186520,
+      "title": "[ControlHeightReductionPass] Crash when compiling using profile data with PGO: Assertion `!NodePtr->isKnownSentinel()' failed.",
+      "created_at": "2026-03-13T21:43:23Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

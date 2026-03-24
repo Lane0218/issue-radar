@@ -17,6 +17,10 @@ CLAIM_PATTERNS = [
         r"\bi(?:'ve| have) started\b",
         r"\bi(?:'ll| will) work on this\b",
         r"\bcan i work on this\b",
+        r"\bcan i get assigned\b",
+        r"\bcan this be assigned to me\b",
+        r"\bassign me\b",
+        r"\bplease assign\b",
         r"\bassign(?:ed)? (?:it )?to me\b",
         r"\bi have a patch\b",
         r"\bi have a pr\b",
@@ -66,7 +70,7 @@ def build_heuristics(issue_bundle: dict[str, Any], profile: dict[str, Any]) -> d
     return {
         "linked_pull_requests": linked_prs,
         "comment_claim_evidence": comment_evidence,
-        "has_hard_claim_signal": bool(linked_prs),
+        "has_hard_claim_signal": bool(linked_prs) or bool(comment_evidence),
         "preferred_categories": sorted(preferred_categories),
         "matched_avoid_topics": matched_avoid_topics,
     }
@@ -191,8 +195,18 @@ def apply_post_rules(
             reason = result.get("claim_reason", "")
             prefix = f"Linked pull request detected: {linked}."
             result["claim_reason"] = f"{prefix} {reason}".strip()
+    elif heuristics.get("comment_claim_evidence"):
+        evidence = heuristics["comment_claim_evidence"][-1]
+        result["claim_status"] = "claimed"
+        reason = result.get("claim_reason", "")
+        prefix = (
+            f"Claim-like comment detected from @{evidence['author']} at {evidence['created_at']}: "
+            f"{evidence['body']}"
+        )
+        result["claim_reason"] = f"{prefix} {reason}".strip()
 
-    if result["claim_status"] == "claimed":
+    claimed_capped = result["claim_status"] == "claimed"
+    if claimed_capped:
         score = min(score, 35)
         adjustments.append("claimed cap 35")
 
@@ -229,6 +243,9 @@ def apply_post_rules(
     if heuristics.get("matched_avoid_topics"):
         score = min(score, 30)
         adjustments.append("avoid_topic cap 30")
+
+    if claimed_capped:
+        score = min(score, 35)
 
     score = clamp(score)
     result["recommend_score"] = score

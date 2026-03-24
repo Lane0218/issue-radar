@@ -23,33 +23,34 @@ def pick_notification_candidates(items: list[dict[str, Any]], state: dict[str, A
     return candidates
 
 
+def _render_claim_state(claim_state: str) -> str:
+    mapping = {
+        "open": "空闲",
+        "maybe_claimed": "可能已有人关注",
+        "claimed": "已认领",
+    }
+    return mapping.get(claim_state, claim_state)
+
+
 def render_email(candidates: list[dict[str, Any]]) -> tuple[str, str]:
-    subject = f"[issue-radar] 发现 {len(candidates)} 个适合你的 issue"
+    subject = f"[issue-radar] 发现 {len(candidates)} 个值得关注的 issue"
     lines = [
-        "issue-radar 发现以下 issue 值得关注：",
+        "issue-radar 为你筛到了以下值得关注的 issue：",
         "",
     ]
-    for item in candidates:
+    for index, item in enumerate(candidates, start=1):
         lines.extend(
             [
-                f"- {item['repository']} #{item['number']} {item['title']}",
-                f"  链接: {item['html_url']}",
-                f"  推荐指数: {item['recommend_score']}",
-                f"  认领状态: {item['claim_state']}",
-                f"  命中来源: {', '.join(item.get('source_signals', [])) or '-'}",
-                f"  命中查询: {', '.join(item.get('matched_queries', [])) or '-'}",
-                f"  难度: {item['difficulty']}",
-                f"  类别: {item['category']}",
-                f"  这个 issue 是什么: {item.get('issue_summary_zh', '') or '-'}",
-                f"  需要做什么工作: {item.get('work_needed_zh', '') or '-'}",
-                f"  适配度: {item['fit_for_user']}",
-                f"  认领依据: {item['claim_reason']}",
-                f"  适合原因: {item['fit_reason']}",
-                f"  推荐原因: {item['recommend_reason']}",
+                f"{index}. {item['repository']} #{item['number']} {item['title']}",
+                f"   链接：{item['html_url']}",
+                f"   推荐指数：{item['recommend_score']}",
+                f"   当前状态：{_render_claim_state(item['claim_state'])}",
+                f"   问题简介：{item.get('issue_summary_zh', '') or '暂无简介'}",
+                f"   建议工作：{item.get('work_needed_zh', '') or '暂无建议'}",
             ]
         )
         if item["claim_state"] == "maybe_claimed":
-            lines.append("  提醒: 存在非机器人评论，建议先人工确认是否已有人跟进。")
+            lines.append("   提醒：存在非机器人评论，建议先人工确认是否已有人跟进。")
         lines.append("")
     return subject, "\n".join(lines).strip() + "\n"
 

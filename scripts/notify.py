@@ -15,7 +15,7 @@ from issue_radar.notification import (
     write_github_output,
     write_notification_files,
 )
-from issue_radar.utils import dump_json, load_json
+from issue_radar.utils import dump_json, load_json, setup_logging
 
 
 def _parse_args() -> argparse.Namespace:
@@ -27,10 +27,15 @@ def _parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    logger = setup_logging("notify")
     args = _parse_args()
+    logger.info("Loading analyzed issues from %s", args.input)
     analyzed = load_json(args.input, default=[])
+    logger.info("Loaded %s analyzed issues", len(analyzed))
     state = load_state_file(args.state)
+    logger.info("Loaded notification state from %s", args.state)
     candidates = pick_notification_candidates(analyzed, state)
+    logger.info("Found %s notification candidates", len(candidates))
 
     if not candidates:
         payload = {
@@ -48,7 +53,7 @@ def main() -> int:
                 "body": payload["body"],
             },
         )
-        print("No new notification candidates.")
+        logger.info("No new notification candidates. Wrote no-op notification payload to %s", args.output_dir)
         return 0
 
     subject, body = render_email(candidates)
@@ -69,7 +74,7 @@ def main() -> int:
     )
     updated_state = update_state(state, candidates)
     dump_json(args.state, updated_state)
-    print(f"Prepared notification for {len(candidates)} issues.")
+    logger.info("Prepared notification for %s issues and updated %s", len(candidates), args.state)
     return 0
 
 

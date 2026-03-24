@@ -7,5 +7,5 @@ repositories:
     query: 'is:issue is:open label:"good first issue"'
     sort: created
     order: desc
-    max_issues: 20
+    max_issues: 5
     max_comments: 30

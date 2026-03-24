@@ -15,7 +15,7 @@ from issue_radar.config import (
     load_monitor_config,
     load_profile,
 )
-from issue_radar.utils import dump_json, load_json
+from issue_radar.utils import dump_json, load_json, setup_logging
 
 
 def _parse_args() -> argparse.Namespace:
@@ -28,23 +28,57 @@ def _parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    logger = setup_logging("analyze_issues")
     args = _parse_args()
+    logger.info("Loading raw issues from %s", args.input)
     raw_issues = load_json(args.input, default=[])
     if not raw_issues:
         raise RuntimeError(f"No raw issues found in {args.input}")
 
+    logger.info("Loaded %s raw issues", len(raw_issues))
     profile = load_profile(args.profile)
     monitor_config = load_monitor_config(args.repos_config)
     ai_client = AIClient.from_env()
+    logger.info(
+        "AI client configured with model=%s base_url=%s timeout=%ss",
+        ai_client.model,
+        ai_client.base_url,
+        ai_client.timeout,
+    )
     analyzed = []
 
-    for bundle in raw_issues:
+    for index, bundle in enumerate(raw_issues, start=1):
         heuristics = build_heuristics(bundle, profile)
         system_prompt, user_prompt = build_ai_prompts(bundle, profile, heuristics)
+        issue = bundle["issue"]
+        logger.info(
+            "Analyzing issue %s/%s: %s#%s %r",
+            index,
+            len(raw_issues),
+            bundle["repository"],
+            issue["number"],
+            issue["title"],
+        )
         try:
             ai_raw = ai_client.analyze_issue(system_prompt, user_prompt)
             ai_result = normalize_ai_result(ai_raw)
+            logger.info(
+                "AI result for %s#%s: claim=%s difficulty=%s category=%s fit=%s score=%s",
+                bundle["repository"],
+                issue["number"],
+                ai_result["claim_status"],
+                ai_result["difficulty"],
+                ai_result["category"],
+                ai_result["fit_for_user"],
+                ai_result["recommend_score"],
+            )
         except Exception as exc:
+            logger.warning(
+                "AI analysis failed for %s#%s, using fallback defaults: %s",
+                bundle["repository"],
+                issue["number"],
+                exc,
+            )
             ai_result = {
                 "claim_status": "claimed" if heuristics.get("linked_pull_requests") else "unclaimed",
                 "claim_reason": f"Fallback because AI analysis failed: {exc}",
@@ -62,7 +96,14 @@ def main() -> int:
             heuristics,
             notify_threshold=monitor_config.notify_threshold,
         )
-        issue = bundle["issue"]
+        logger.info(
+            "Final result for %s#%s: notify=%s score=%s adjustments=%s",
+            bundle["repository"],
+            issue["number"],
+            final["should_notify"],
+            final["recommend_score"],
+            ",".join(final["score_adjustments"]) or "-",
+        )
         analyzed.append(
             {
                 "query_key": bundle["query_key"],
@@ -90,7 +131,7 @@ def main() -> int:
 
     analyzed.sort(key=lambda item: item["recommend_score"], reverse=True)
     dump_json(args.output, analyzed)
-    print(f"Analyzed {len(analyzed)} issues into {args.output}")
+    logger.info("Analyzed %s issues into %s", len(analyzed), args.output)
     return 0
 
 

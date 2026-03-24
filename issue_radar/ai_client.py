@@ -13,6 +13,7 @@ class AIClient:
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
         self.model = model
+        self.timeout = int(os.environ.get("AI_TIMEOUT_SECONDS", "30"))
         self.session = requests.Session()
         self.session.headers.update(
             {
@@ -39,7 +40,11 @@ class AIClient:
                 {"role": "user", "content": user_prompt},
             ],
         }
-        response = self.session.post(f"{self.base_url}/chat/completions", json=payload, timeout=90)
+        response = self.session.post(
+            f"{self.base_url}/chat/completions",
+            json=payload,
+            timeout=self.timeout,
+        )
         response.raise_for_status()
         body = response.json()
         content = body["choices"][0]["message"]["content"]

@@ -8,7 +8,7 @@ from typing import Any
 
 from issue_radar.config import DEFAULT_RAW_OUTPUT, DEFAULT_REPOS_CONFIG, load_monitor_config
 from issue_radar.github_client import GitHubClient, extract_linked_pull_requests, load_github_token
-from issue_radar.utils import dump_json, now_iso
+from issue_radar.utils import dump_json, now_iso, setup_logging
 
 
 def _parse_args() -> argparse.Namespace:
@@ -68,14 +68,27 @@ def _serialize_timeline_event(event: dict[str, Any]) -> dict[str, Any]:
 
 
 def main() -> int:
+    logger = setup_logging("fetch_issues")
     args = _parse_args()
+    logger.info("Loading monitor config from %s", args.config)
     config = load_monitor_config(args.config)
     token = load_github_token()
+    logger.info("GitHub token available: %s", "yes" if token else "no")
     client = GitHubClient(token=token)
     fetched_at = now_iso()
     bundles: list[dict[str, Any]] = []
 
     for repo_config in config.repositories:
+        repository_name = f"{repo_config.owner}/{repo_config.repo}"
+        logger.info(
+            "Searching issues for %s with query=%r sort=%s order=%s max_issues=%s max_comments=%s",
+            repository_name,
+            repo_config.query,
+            repo_config.sort,
+            repo_config.order,
+            repo_config.max_issues,
+            repo_config.max_comments,
+        )
         search_results = client.search_issues(
             owner=repo_config.owner,
             repo=repo_config.repo,
@@ -84,8 +97,10 @@ def main() -> int:
             order=repo_config.order,
             per_page=repo_config.max_issues,
         )
-        for item in search_results:
+        logger.info("Search returned %s issues for %s", len(search_results), repository_name)
+        for index, item in enumerate(search_results, start=1):
             number = int(item["number"])
+            logger.info("Fetching issue %s/%s: %s#%s", index, len(search_results), repository_name, number)
             issue = client.get_issue(repo_config.owner, repo_config.repo, number)
             comments = client.get_issue_comments(
                 repo_config.owner,
@@ -94,21 +109,31 @@ def main() -> int:
                 max_comments=repo_config.max_comments,
             )
             timeline = client.get_issue_timeline(repo_config.owner, repo_config.repo, number)
+            linked_pull_requests = extract_linked_pull_requests(timeline)
+            logger.info(
+                "Fetched %s#%s title=%r comments=%s timeline_events=%s linked_prs=%s",
+                repository_name,
+                number,
+                issue.get("title"),
+                len(comments),
+                len(timeline),
+                len(linked_pull_requests),
+            )
             bundles.append(
                 {
                     "query_key": repo_config.key,
                     "query": repo_config.query,
-                    "repository": f"{repo_config.owner}/{repo_config.repo}",
+                    "repository": repository_name,
                     "fetched_at": fetched_at,
                     "issue": _serialize_issue(issue),
                     "comments": [_serialize_comment(comment) for comment in comments],
                     "timeline": [_serialize_timeline_event(event) for event in timeline],
-                    "linked_pull_requests": extract_linked_pull_requests(timeline),
+                    "linked_pull_requests": linked_pull_requests,
                 }
             )
 
     dump_json(args.output, bundles)
-    print(f"Fetched {len(bundles)} issues into {args.output}")
+    logger.info("Fetched %s issues into %s", len(bundles), args.output)
     return 0
 
 

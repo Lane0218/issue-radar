@@ -463,6 +463,14 @@
       "title": "x86_64-pc-linux-gnu-clang-21: error: clang frontend command failed with exit code 134 (use -v to see invocation)",
       "created_at": "2026-03-25T18:35:47Z",
       "claim_state_at_first_seen": "maybe_claimed"
+    },
+    "llvm/llvm-project#188577": {
+      "seen_at": "2026-03-25T21:51:48+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188577,
+      "title": "[HLSL] Assertion hit evaluating constexpr of InitListExpr which contains multiple MaterializeTemporaryExpr",
+      "created_at": "2026-03-25T19:42:34Z",
+      "claim_state_at_first_seen": "claimed"
     }
   }
 }

@@ -5,8 +5,8 @@
 - AI 只判断难度、类别、适配度和推荐指数
 - 只对新 issue 做 AI 分析，避免重复调用模型
 
-第一版默认监控 `llvm/llvm-project` 的 `good first issue`。
-现在也会补充抓取 `docs/tests/cleanup` 一类低门槛信号，不再只依赖 `good first issue`。
+当前默认只监控 `llvm/llvm-project`。
+除了 `good first issue` 之外，也会补充抓取 `docs/tests/cleanup/refactor/typo/comment` 等标签或关键词信号，扩大低门槛 issue 覆盖面。
 
 ## 能力
 - 通过 GitHub API 抓取 issue、评论、timeline 事件
@@ -16,7 +16,7 @@
 - 维护 `data/state/analyzed_issues.json`，只分析新 issue
 - 结合你的画像生成推荐指数
 - 去重后为高分 issue 生成邮件通知
-- 支持 GitHub Actions 每 30 分钟执行一次
+- 支持 GitHub Actions 在每小时 `07`、`37` 分执行一次
 - `claimed` issue 只写状态、不进入分析结果
 - AI 调用失败时只重试 1 次，仍失败则直接丢弃，不生成保底分析
 

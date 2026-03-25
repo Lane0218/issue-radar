@@ -17,6 +17,150 @@
       "sent_at": "2026-03-24T10:13:54+00:00",
       "recommend_score": 100,
       "updated_at": "2026-03-24T09:46:40Z"
+    },
+    "llvm/llvm-project#176546": {
+      "fingerprint": "7116e4e306442dea080943249e441251e1c3ea0a",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-02-10T15:54:28Z"
+    },
+    "llvm/llvm-project#183400": {
+      "fingerprint": "be4a5614f29b256964f2cf4c17393f25f94cdcd8",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-02-25T22:39:08Z"
+    },
+    "llvm/llvm-project#183429": {
+      "fingerprint": "505ba06b43b353e0f648d2a700aae392e1e80868",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-03T21:00:07Z"
+    },
+    "llvm/llvm-project#183728": {
+      "fingerprint": "ce7bff95b7ae8ae244b979b5c4d24f41ed0b1c33",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-02T23:55:21Z"
+    },
+    "llvm/llvm-project#183906": {
+      "fingerprint": "250f312e56a6081d39b7c5a222baf7feb8136449",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-02T19:40:25Z"
+    },
+    "llvm/llvm-project#186620": {
+      "fingerprint": "83dee064e24884af9e620d0e3b456f020c341f2e",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-14T23:54:19Z"
+    },
+    "llvm/llvm-project#186220": {
+      "fingerprint": "a50314b787713bb918bfdfb4dbcbc9929ce931d4",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-13T15:46:53Z"
+    },
+    "llvm/llvm-project#187373": {
+      "fingerprint": "d3f83f9fc6de4b97e90b1c4d68a8934d5e7ea7bd",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-18T21:08:50Z"
+    },
+    "llvm/llvm-project#187830": {
+      "fingerprint": "8328c304a3dc7c172fc77fa573a180c64ae8cb38",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-23T16:29:04Z"
+    },
+    "llvm/llvm-project#187884": {
+      "fingerprint": "8b24d45d02b99e28f246ee0fdde4277cbeaa9d1e",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T07:58:08Z"
+    },
+    "llvm/llvm-project#188234": {
+      "fingerprint": "c370f912b72a5098c179147c77db269c061ad771",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T07:01:41Z"
+    },
+    "llvm/llvm-project#188293": {
+      "fingerprint": "c6f7d3b3515b7fd2110c62e472cc06f9c32e7b82",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T13:26:41Z"
+    },
+    "llvm/llvm-project#188440": {
+      "fingerprint": "8c346cc5eca9080878153758e81579b7bb9c8e39",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T13:49:59Z"
+    },
+    "llvm/llvm-project#188348": {
+      "fingerprint": "719a13f8c5a6e413119c547e2fb5689c42647ccf",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-24T21:56:43Z"
+    },
+    "llvm/llvm-project#188452": {
+      "fingerprint": "1144286f802bdbae75256134a28e495eea924f0e",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T13:55:26Z"
+    },
+    "llvm/llvm-project#188470": {
+      "fingerprint": "b05a8e31dbbff6f0705f1a3c162fe0257c2cfb19",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T13:45:56Z"
+    },
+    "llvm/llvm-project#188476": {
+      "fingerprint": "fc53644a096222418654fb01714d35449fbb3c6c",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T13:43:18Z"
+    },
+    "llvm/llvm-project#188479": {
+      "fingerprint": "11ae0538d29d942105b5906a1b825e3ba36a8d6b",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T13:06:26Z"
+    },
+    "llvm/llvm-project#188481": {
+      "fingerprint": "1bb2cb27ae0d03be89aba187a7b57a1e1d76989f",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T13:47:21Z"
+    },
+    "llvm/llvm-project#188482": {
+      "fingerprint": "f4861fbe03927f9dfd84f4373469e254122afe17",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T13:42:11Z"
+    },
+    "llvm/llvm-project#188500": {
+      "fingerprint": "828359edce25773037169d3f081cf8c8f3f0cdf0",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T14:52:54Z"
+    },
+    "llvm/llvm-project#188494": {
+      "fingerprint": "8934fc41e17ed7fcdd564e59cad992033fe8e0f4",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T14:20:01Z"
+    },
+    "llvm/llvm-project#177162": {
+      "fingerprint": "670b17ae3971f72f9741cf10a010b8dd40ac5f08",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 82,
+      "updated_at": "2026-02-17T16:29:42Z"
+    },
+    "llvm/llvm-project#183723": {
+      "fingerprint": "8f3b5f9d73bd8a39e902d480835411583ed8a86a",
+      "sent_at": "2026-03-25T15:01:05+00:00",
+      "recommend_score": 82,
+      "updated_at": "2026-03-23T19:51:02Z"
     }
   }
 }

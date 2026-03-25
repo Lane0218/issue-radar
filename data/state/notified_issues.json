@@ -185,6 +185,12 @@
       "sent_at": "2026-03-25T17:39:22+00:00",
       "recommend_score": 100,
       "updated_at": "2026-03-25T16:55:14Z"
+    },
+    "llvm/llvm-project#188554": {
+      "fingerprint": "9f72686c33154fb93bec499c05a3af0085839e30",
+      "sent_at": "2026-03-25T19:11:39+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T18:33:06Z"
     }
   }
 }

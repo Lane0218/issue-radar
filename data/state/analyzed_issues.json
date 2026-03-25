@@ -471,6 +471,22 @@
       "title": "[HLSL] Assertion hit evaluating constexpr of InitListExpr which contains multiple MaterializeTemporaryExpr",
       "created_at": "2026-03-25T19:42:34Z",
       "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188640": {
+      "seen_at": "2026-03-25T23:47:56+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188640,
+      "title": "[Clang regression with 22.x] Incorrect subsumption with use of concept default template argument",
+      "created_at": "2026-03-25T23:24:01Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188641": {
+      "seen_at": "2026-03-25T23:47:56+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188641,
+      "title": "[llvm-lit] Large memory usage in lit main process when running",
+      "created_at": "2026-03-25T23:25:30Z",
+      "claim_state_at_first_seen": "claimed"
     }
   }
 }

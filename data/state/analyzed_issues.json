@@ -407,6 +407,38 @@
       "title": "[GlobalISel] GroupMatcher::finalize() hoists GIM_CheckIsSameOperandIgnoreCopies before referenced operands are registered",
       "created_at": "2026-03-25T15:36:01Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188536": {
+      "seen_at": "2026-03-25T17:38:44+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188536,
+      "title": "[Flang][OpenMP] Instruction does not dominate all uses after #187766",
+      "created_at": "2026-03-25T16:44:52Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188535": {
+      "seen_at": "2026-03-25T17:39:10+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188535,
+      "title": "OpenMP compilation assertion hit in CGStmtOpenMP.cpp",
+      "created_at": "2026-03-25T16:42:39Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188529": {
+      "seen_at": "2026-03-25T17:39:17+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188529,
+      "title": "[libclc] new rocm implementations are not compliant for clspv",
+      "created_at": "2026-03-25T16:31:27Z",
+      "claim_state_at_first_seen": "maybe_claimed"
+    },
+    "llvm/llvm-project#188444": {
+      "seen_at": "2026-03-25T17:39:22+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188444,
+      "title": "Request Commit Access For midhuncodes7",
+      "created_at": "2026-03-25T09:28:40Z",
+      "claim_state_at_first_seen": "maybe_claimed"
     }
   }
 }

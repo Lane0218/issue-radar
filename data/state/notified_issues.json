@@ -173,6 +173,18 @@
       "sent_at": "2026-03-25T16:21:34+00:00",
       "recommend_score": 100,
       "updated_at": "2026-03-25T16:12:11Z"
+    },
+    "llvm/llvm-project#188535": {
+      "fingerprint": "47c52e09866907872f650d8c748380c47c23e0c3",
+      "sent_at": "2026-03-25T17:39:22+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T16:50:48Z"
+    },
+    "llvm/llvm-project#188529": {
+      "fingerprint": "742311de2893cfc470826c09cf8a0a3d557b49d5",
+      "sent_at": "2026-03-25T17:39:22+00:00",
+      "recommend_score": 100,
+      "updated_at": "2026-03-25T16:55:14Z"
     }
   }
 }

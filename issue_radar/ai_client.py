@@ -43,6 +43,8 @@ class AIClient:
                 {"role": "user", "content": user_prompt},
             ],
         }
+        if _should_disable_thinking(self.model):
+            payload["enable_thinking"] = False
         response = self.session.post(
             f"{self.base_url}/chat/completions",
             json=payload,
@@ -64,3 +66,8 @@ def _extract_json(content: str) -> dict[str, Any]:
     if not match:
         raise ValueError(f"Model response does not contain JSON: {content[:400]}")
     return json.loads(match.group(0))
+
+
+def _should_disable_thinking(model: str) -> bool:
+    normalized = model.strip().lower()
+    return normalized == "qwen3.5-flash" or normalized.startswith("qwen3.5-flash-")

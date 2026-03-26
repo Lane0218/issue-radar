@@ -487,6 +487,22 @@
       "title": "[llvm-lit] Large memory usage in lit main process when running",
       "created_at": "2026-03-25T23:25:30Z",
       "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188568": {
+      "seen_at": "2026-03-26T03:22:19+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188568,
+      "title": "[polly] IO sanbox violation in Polly invocation",
+      "created_at": "2026-03-25T19:10:04Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188661": {
+      "seen_at": "2026-03-26T03:22:19+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188661,
+      "title": "[Clang] [Sema] Returning an initializer list from a lambda/block that returns `void` is accepted",
+      "created_at": "2026-03-26T01:37:37Z",
+      "claim_state_at_first_seen": "claimed"
     }
   }
 }

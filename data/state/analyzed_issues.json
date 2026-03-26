@@ -1,0 +1,380 @@
+{
+  "issues": {
+    "llvm/llvm-project#177162": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 177162,
+      "title": "confusing error message from cmake",
+      "created_at": "2026-01-21T13:18:06Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#179147": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 179147,
+      "title": "LLVM repository update on Debian testing (forky) now fails",
+      "created_at": "2026-02-01T22:41:57Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#183400": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 183400,
+      "title": "libclc SPIRV backend Unresolved external reference to \"_Z37__clc_flush_denormal_if_not_supportedf\"",
+      "created_at": "2026-02-25T22:02:47Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#183429": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 183429,
+      "title": "Pragma Parser uses to sets of uniqe_ptr to handle the same pointer",
+      "created_at": "2026-02-26T01:26:43Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#183440": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 183440,
+      "title": "link err: 3 api unfound while compile LTO module",
+      "created_at": "2026-02-26T03:42:58Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#183464": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 183464,
+      "title": "[clang-tidy] Rename `hicpp-multiway-paths-covered` to `bugprone-multiway-paths-covered` and keep initial as alias",
+      "created_at": "2026-02-26T07:04:32Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#183465": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 183465,
+      "title": "[clang-tidy] Rename `hicpp-signed-bitwise` to `bugprone-signed-bitwise` and keep initial as alias",
+      "created_at": "2026-02-26T07:06:01Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#183723": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 183723,
+      "title": "[Clang] ABI mismatch between Clang and GCC when using vector types in a union",
+      "created_at": "2026-02-27T10:33:32Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#183728": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 183728,
+      "title": "[clang] crashes with format_matches attribute after invalid declaration",
+      "created_at": "2026-02-27T12:18:16Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#183906": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 183906,
+      "title": "[IndVar] Miscompile due to removal of an infinite loop",
+      "created_at": "2026-02-28T12:15:18Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#185232": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 185232,
+      "title": "[libc][math] Tracking Issue - Refactor internal utils to be `constexpr` compatible with `long double` on Linux X87 platform",
+      "created_at": "2026-03-07T21:53:07Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#185382": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 185382,
+      "title": "[CIR] Upstream handling of AArch64 (Arm) Neon builtins",
+      "created_at": "2026-03-09T09:44:11Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#185880": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 185880,
+      "title": "[DAG] SDPatternMatch - add m_FShL / m_FShR / m_FShLLike / m_FShRLike matchers",
+      "created_at": "2026-03-11T13:37:31Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#185949": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 185949,
+      "title": "[Coroutines] Improve profile information for the entry block of Coroutines",
+      "created_at": "2026-03-11T18:18:58Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#185998": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 185998,
+      "title": "LLVM 22.1.1 fails to link clangd & a few tools",
+      "created_at": "2026-03-11T23:11:43Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#186220": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 186220,
+      "title": "Crash in verifier llvm-as",
+      "created_at": "2026-03-12T19:29:21Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#186274": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 186274,
+      "title": "performance optimization: special-case deduction for variables of type `auto`",
+      "created_at": "2026-03-12T23:01:58Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#186620": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 186620,
+      "title": "Clang docs list -ffixed-x8 as feature for AArch64 but it isn't actually implemented.",
+      "created_at": "2026-03-14T20:27:27Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#186867": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 186867,
+      "title": "LLVM 22.1.1 build fails due to missing `llvm/Analysis/TargetLibraryInfo.inc`",
+      "created_at": "2026-03-16T19:36:24Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187013": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187013,
+      "title": "Consider removing support for `base::Optional`from `bugprone-unchecked-optional-access`",
+      "created_at": "2026-03-17T12:59:26Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187302": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187302,
+      "title": "[WebAssembly] eh regression from llvm 20 to 21 with nested catchpads",
+      "created_at": "2026-03-18T15:28:47Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187373": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187373,
+      "title": "[clang-tidy] feature request: modernize-use-std-numbers to replace macros like `M_PI` defined in `<math.h>` with the correspondings math constants defined in `std::numbers` (C++20)",
+      "created_at": "2026-03-18T20:39:41Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187404": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187404,
+      "title": "[libc][hdrgen] Extend `guard` attribute support for `types`",
+      "created_at": "2026-03-18T23:37:46Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187675": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187675,
+      "title": "-Wdangling-field detects view members initalized from a by-value owner parameter",
+      "created_at": "2026-03-20T11:09:05Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187830": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187830,
+      "title": "[clang-tidy] bzero(3) is not bugprone nor unsafe",
+      "created_at": "2026-03-21T00:48:05Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188062": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188062,
+      "title": "[Clang] VectorExprEvaluator::VisitCallExpr / InterpretBuiltin - add MMX/SSE/AVX/AVX512 VPSADBW intrinsics to be used in constexpr",
+      "created_at": "2026-03-23T16:25:18Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188201": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188201,
+      "title": "[X86] Incorrect promotion for fneg / fabs half calls at -O0",
+      "created_at": "2026-03-24T09:37:15Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188494": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188494,
+      "title": "Calls to functions with `returns_twice` do not clobber callee-saved registers",
+      "created_at": "2026-03-25T14:19:49Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188500": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188500,
+      "title": "[clang-format] --dry-run crashes on C file containing embedded NUL byte, but works fine without --dry-run flag",
+      "created_at": "2026-03-25T14:51:32Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188505": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188505,
+      "title": "Clang crashes / miscompiles on variadic template code",
+      "created_at": "2026-03-25T15:13:09Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188661": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188661,
+      "title": "[Clang] [Sema] Returning an initializer list from a lambda/block that returns `void` is accepted",
+      "created_at": "2026-03-26T01:37:37Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188700": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188700,
+      "title": "Missed loop simplification due to missing reasoning on (%indvars.iv & 1) != 0",
+      "created_at": "2026-03-26T07:35:51Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188730": {
+      "seen_at": "2026-03-26T14:08:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188730,
+      "title": "[clang-tidy] `bugprone-exception-escape.TreatFunctionsWithoutSpecificationAsThrowing: OnlyUndefined` complains about known code without any exceptions",
+      "created_at": "2026-03-26T11:52:02Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187930": {
+      "seen_at": "2026-03-26T14:08:15+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187930,
+      "title": "[llvm-exegesis] Allow custom PFM counters",
+      "created_at": "2026-03-22T13:56:25Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#186520": {
+      "seen_at": "2026-03-26T14:08:15+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 186520,
+      "title": "[ControlHeightReductionPass] Crash when compiling using profile data with PGO: Assertion `!NodePtr->isKnownSentinel()' failed.",
+      "created_at": "2026-03-13T21:43:23Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188234": {
+      "seen_at": "2026-03-26T14:08:15+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188234,
+      "title": "[AArch64] KASAN asan.module_ctor does not inherit \"frame-pointer\"=\"all\" or uwtable, emits str x30 instead of stp x29, x30",
+      "created_at": "2026-03-24T12:20:28Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188696": {
+      "seen_at": "2026-03-26T14:08:18+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188696,
+      "title": "[Clang][Regression:21] Crash on typo correction of overloaded member function template",
+      "created_at": "2026-03-26T07:17:17Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188670": {
+      "seen_at": "2026-03-26T14:08:19+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188670,
+      "title": "Strange Stack-Alignment Code Generated by Clobbering `esp` Can Overrite Function Return",
+      "created_at": "2026-03-26T03:45:50Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188699": {
+      "seen_at": "2026-03-26T14:08:19+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188699,
+      "title": "Clang trunk Segmentation fault with `asm goto` block",
+      "created_at": "2026-03-26T07:29:13Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188703": {
+      "seen_at": "2026-03-26T14:08:22+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188703,
+      "title": "[SPIRV] Tests fails with verify-machineinstr build option.",
+      "created_at": "2026-03-26T08:28:44Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188705": {
+      "seen_at": "2026-03-26T14:08:22+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188705,
+      "title": "[lldb-dap] Remove (or trim) the DAP log on test failures",
+      "created_at": "2026-03-26T08:53:38Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188704": {
+      "seen_at": "2026-03-26T14:08:22+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188704,
+      "title": "[AVX-512] Match shufflevector-zero-extend of k-mask result",
+      "created_at": "2026-03-26T08:44:42Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188716": {
+      "seen_at": "2026-03-26T14:08:24+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188716,
+      "title": "Compilation crash (clc_builtins_amdgcn_amd_amdhsa_llvm)",
+      "created_at": "2026-03-26T10:17:28Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188733": {
+      "seen_at": "2026-03-26T14:08:25+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188733,
+      "title": "[clang] crashes when multiple ownership_returns attributes are applied to a function",
+      "created_at": "2026-03-26T12:34:10Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188734": {
+      "seen_at": "2026-03-26T14:08:25+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188734,
+      "title": "[clang-format] Option `SpaceBeforeEnumColon` to select whether a space should be inserted before the colon when specifying the underlying type of an `enum`",
+      "created_at": "2026-03-26T12:39:34Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188737": {
+      "seen_at": "2026-03-26T14:08:27+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188737,
+      "title": "Missed simplification due to failing to infer that %2 == 6 is unreachable since the loop exits at %2 == 1",
+      "created_at": "2026-03-26T13:09:12Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188747": {
+      "seen_at": "2026-03-26T14:08:28+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188747,
+      "title": "[Clang] VectorExprEvaluator::VisitCallExpr / InterpretBuiltin - allow VDBPSADBW intrinsics to be used in constexpr",
+      "created_at": "2026-03-26T13:41:44Z",
+      "claim_state_at_first_seen": "open"
+    }
+  }
+}

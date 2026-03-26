@@ -447,6 +447,14 @@
       "title": "clang-repl fails to link emulated thread-local variables on macOS and Windows",
       "created_at": "2026-03-26T18:12:15Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188820": {
+      "seen_at": "2026-03-26T19:41:09+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188820,
+      "title": "[Flang][OpenMP] Implement OpenMP 5.2 metadirective",
+      "created_at": "2026-03-26T18:40:16Z",
+      "claim_state_at_first_seen": "claimed"
     }
   }
 }

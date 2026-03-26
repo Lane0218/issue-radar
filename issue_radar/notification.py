@@ -4,22 +4,35 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-from .analysis import issue_fingerprint
+from .analysis import issue_fingerprint, issue_sort_key
 from .utils import dump_json, load_json, now_iso
 
 
 BEIJING_TZ = timezone(timedelta(hours=8))
+FIT_LABELS = {
+    "good_fit": "很适合",
+    "possible_fit": "可以尝试",
+    "poor_fit": "不太适合",
+}
+DIFFICULTY_LABELS = {
+    "low": "低",
+    "medium_low": "中低",
+    "unclear": "待确认",
+    "too_hard": "偏难",
+}
 
 
 def pick_notification_candidates(items: list[dict[str, Any]], state: dict[str, Any]) -> list[dict[str, Any]]:
     notified = state.get("issues", {})
     candidates = []
-    for item in sorted(items, key=lambda issue: issue.get("recommend_score", 0), reverse=True):
+    for item in sorted(items, key=issue_sort_key):
         if not item.get("should_notify"):
             continue
         key = f"{item['repository']}#{item['number']}"
-        fingerprint = issue_fingerprint(item)
         previous = notified.get(key)
+        if previous and previous.get("updated_at") == item.get("updated_at"):
+            continue
+        fingerprint = issue_fingerprint(item)
         if previous and previous.get("fingerprint") == fingerprint:
             continue
         candidates.append(item)
@@ -44,16 +57,25 @@ def _render_created_at(created_at: str | None) -> str:
     return parsed.astimezone(BEIJING_TZ).strftime("%Y-%m-%d %H:%M 北京时间")
 
 
+def _render_fit(fit_for_user: str | None) -> str:
+    return FIT_LABELS.get(str(fit_for_user or "").strip().lower(), fit_for_user or "未知")
+
+
+def _render_difficulty(difficulty: str | None) -> str:
+    return DIFFICULTY_LABELS.get(str(difficulty or "").strip().lower(), difficulty or "未知")
+
+
 def render_email(candidates: list[dict[str, Any]]) -> tuple[str, str]:
     subject = f"[issue-radar] 发现 {len(candidates)} 个值得关注的 issue"
     lines = [
         "issue-radar 为你筛到了以下值得关注的 issue。",
-        "已按推荐指数从高到低排序：",
+        "已按适配度、难度和创建时间排序：",
         "",
     ]
     for index, item in enumerate(candidates, start=1):
         meta_line = (
-            f"推荐指数：{item['recommend_score']} | "
+            f"适配度：{_render_fit(item.get('fit_for_user'))} | "
+            f"难度：{_render_difficulty(item.get('difficulty'))} | "
             f"创建时间：{_render_created_at(item.get('created_at'))} | "
             f"当前状态：{_render_claim_state(item['claim_state'])}"
         )
@@ -80,7 +102,6 @@ def update_state(state: dict[str, Any], candidates: list[dict[str, Any]]) -> dic
         issues[key] = {
             "fingerprint": issue_fingerprint(item),
             "sent_at": sent_at,
-            "recommend_score": item["recommend_score"],
             "updated_at": item.get("updated_at"),
         }
     updated["issues"] = issues

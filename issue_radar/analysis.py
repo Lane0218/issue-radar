@@ -3,9 +3,10 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from datetime import datetime, timezone
 from typing import Any
 
-from .utils import clamp, truncate_text
+from .utils import truncate_text
 
 
 CLAIM_PATTERNS = [
@@ -34,15 +35,8 @@ DIFFICULTY_VALUES = {"low", "medium_low", "too_hard", "unclear"}
 FIT_VALUES = {"good_fit", "possible_fit", "poor_fit"}
 MAX_AI_BODY_CHARS = 2200
 KNOWN_BOTS = {"llvmbot"}
-SOURCE_SIGNAL_WEIGHTS = {
-    "good_first_issue": 10,
-    "docs": 6,
-    "tests": 6,
-    "cleanup": 6,
-    "documentation_keyword": 3,
-    "cleanup_keyword": 3,
-}
-SOURCE_SIGNAL_CAP = 14
+FIT_SORT_PRIORITY = {"good_fit": 0, "possible_fit": 1, "poor_fit": 2}
+DIFFICULTY_SORT_PRIORITY = {"low": 0, "medium_low": 1, "unclear": 2, "too_hard": 3}
 
 
 def is_bot_author(author: str | None) -> bool:
@@ -52,28 +46,7 @@ def is_bot_author(author: str | None) -> bool:
     return normalized in KNOWN_BOTS or normalized.endswith("bot") or "[bot]" in normalized
 
 
-def normalize_preferred_domains(values: list[Any]) -> set[str]:
-    mapping = {
-        "编译器": "compiler",
-        "compiler": "compiler",
-        "mlir": "mlir",
-        "llvm": "llvm",
-        "前端": "frontend",
-        "frontend": "frontend",
-        "文档": "docs",
-        "docs": "docs",
-        "测试": "tests",
-        "tests": "tests",
-    }
-    normalized: set[str] = set()
-    for value in values:
-        key = str(value).strip().lower()
-        if key in mapping:
-            normalized.add(mapping[key])
-    return normalized
-
-
-def build_heuristics(issue_bundle: dict[str, Any], profile: dict[str, Any]) -> dict[str, Any]:
+def build_heuristics(issue_bundle: dict[str, Any]) -> dict[str, Any]:
     issue = issue_bundle["issue"]
     comments = issue_bundle.get("comments", [])
     linked_prs = issue_bundle.get("linked_pull_requests", [])
@@ -106,23 +79,10 @@ def build_heuristics(issue_bundle: dict[str, Any], profile: dict[str, Any]) -> d
                 )
                 break
 
-    preferred_categories = normalize_preferred_domains(profile.get("preferred_domains", []))
-    avoid_topics = [str(item).strip().lower() for item in profile.get("avoid_topics", []) if str(item).strip()]
-    searchable_text = " ".join(
-        [
-            issue.get("title", ""),
-            issue.get("body", ""),
-            " ".join(label.get("name", "") for label in issue.get("labels", [])),
-        ]
-    ).lower()
-    matched_avoid_topics = [topic for topic in avoid_topics if topic in searchable_text]
-
     return {
         "linked_pull_requests": linked_prs,
         "other_participant_comments": other_participant_comments,
         "claim_comment_evidence": claim_comment_evidence,
-        "preferred_categories": sorted(preferred_categories),
-        "matched_avoid_topics": matched_avoid_topics,
     }
 
 
@@ -172,11 +132,10 @@ def build_ai_prompts(issue_bundle: dict[str, Any], profile: dict[str, Any]) -> t
     system_prompt = (
         "You analyze GitHub issues for a developer. "
         "Reply with JSON only. "
-        "Required keys: difficulty, category, fit_for_user, fit_reason, recommend_score, recommend_reason, issue_summary_zh, work_needed_zh. "
+        "Required keys: difficulty, category, fit_for_user, fit_reason, issue_summary_zh, work_needed_zh. "
         "difficulty must be low, medium_low, too_hard, or unclear. "
         "category must be compiler, mlir, llvm, frontend, docs, tests, or other. "
         "fit_for_user must be good_fit, possible_fit, or poor_fit. "
-        "recommend_score must be an integer from 0 to 100. "
         "issue_summary_zh must be concise Simplified Chinese explaining what the issue is. "
         "work_needed_zh must be concise Simplified Chinese explaining what work the contributor likely needs to do. "
         "Do not include claim status or assignment analysis."
@@ -196,11 +155,6 @@ def normalize_ai_result(raw: dict[str, Any]) -> dict[str, Any]:
     if fit_for_user not in FIT_VALUES:
         fit_for_user = "possible_fit"
 
-    try:
-        recommend_score = int(raw.get("recommend_score", 50))
-    except (TypeError, ValueError):
-        recommend_score = 50
-
     issue_summary_zh = str(raw.get("issue_summary_zh", "")).strip()
     work_needed_zh = str(raw.get("work_needed_zh", "")).strip()
     if not issue_summary_zh:
@@ -213,8 +167,6 @@ def normalize_ai_result(raw: dict[str, Any]) -> dict[str, Any]:
         "category": category,
         "fit_for_user": fit_for_user,
         "fit_reason": str(raw.get("fit_reason", "")).strip(),
-        "recommend_score": clamp(recommend_score),
-        "recommend_reason": str(raw.get("recommend_reason", "")).strip(),
         "issue_summary_zh": issue_summary_zh,
         "work_needed_zh": work_needed_zh,
     }
@@ -226,25 +178,11 @@ def build_skip_ai_result(claim_state: str, claim_reason: str) -> dict[str, Any]:
         "category": "other",
         "fit_for_user": "possible_fit",
         "fit_reason": f"Skipped AI analysis because claim_state={claim_state}.",
-        "recommend_score": 0,
-        "recommend_reason": f"Skipped AI analysis because this issue is {claim_state}.",
         "issue_summary_zh": "该 issue 未进行 AI 摘要生成。",
         "work_needed_zh": "该 issue 未进行 AI 工作项分析。",
         "claim_state": claim_state,
         "claim_reason": claim_reason,
     }
-
-
-def compute_source_signal_bonus(source_signals: list[str]) -> tuple[int, list[str]]:
-    bonus = 0
-    adjustments: list[str] = []
-    for signal in source_signals:
-        weight = SOURCE_SIGNAL_WEIGHTS.get(signal, 0)
-        if weight <= 0:
-            continue
-        bonus += weight
-        adjustments.append(f"{signal} +{weight}")
-    return min(bonus, SOURCE_SIGNAL_CAP), adjustments
 
 
 def apply_post_rules(
@@ -254,65 +192,39 @@ def apply_post_rules(
     *,
     claim_state: str,
     claim_reason: str,
-    notify_threshold: int,
 ) -> dict[str, Any]:
     result = dict(ai_result)
-    adjustments: list[str] = []
-    score = int(result["recommend_score"])
-    source_signal_bonus, source_adjustments = compute_source_signal_bonus(
-        issue_bundle.get("source_signals", [])
-    )
-
-    if claim_state == "claimed":
-        score = min(score, 35)
-        adjustments.append("claimed cap 35")
-
-    if result["difficulty"] == "low":
-        score += 8
-        adjustments.append("low +8")
-    elif result["difficulty"] == "medium_low":
-        score += 4
-        adjustments.append("medium_low +4")
-    elif result["difficulty"] == "too_hard":
-        score = min(score, 40)
-        adjustments.append("too_hard cap 40")
-
-    if result["fit_for_user"] == "good_fit":
-        score += 10
-        adjustments.append("good_fit +10")
-    elif result["fit_for_user"] == "possible_fit":
-        score += 2
-        adjustments.append("possible_fit +2")
-    elif result["fit_for_user"] == "poor_fit":
-        score = min(score, 45)
-        adjustments.append("poor_fit cap 45")
-
-    preferred_categories = set(heuristics.get("preferred_categories", []))
-    if result["category"] in preferred_categories:
-        score += 8
-        adjustments.append("preferred_category +8")
-
-    if source_signal_bonus:
-        score += source_signal_bonus
-        adjustments.extend(source_adjustments)
-
-    if heuristics.get("matched_avoid_topics"):
-        score = min(score, 30)
-        adjustments.append("avoid_topic cap 30")
-
-    score = clamp(score)
     result["claim_state"] = claim_state
     result["claim_reason"] = claim_reason
-    result["recommend_score"] = score
-    result["score_adjustments"] = adjustments
-    result["source_score_adjustments"] = source_adjustments
     result["should_notify"] = (
         claim_state == "open"
         and result["difficulty"] in {"low", "medium_low"}
         and result["fit_for_user"] in {"good_fit", "possible_fit"}
-        and score >= notify_threshold
     )
     return result
+
+
+def parse_iso_datetime(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def issue_sort_key(item: dict[str, Any]) -> tuple[int, int, float, str, int]:
+    fit_priority = FIT_SORT_PRIORITY.get(str(item.get("fit_for_user", "")).strip().lower(), 99)
+    difficulty_priority = DIFFICULTY_SORT_PRIORITY.get(str(item.get("difficulty", "")).strip().lower(), 99)
+    created_at = parse_iso_datetime(item.get("created_at"))
+    created_sort_value = -(created_at.timestamp() if created_at else 0.0)
+    return (
+        fit_priority,
+        difficulty_priority,
+        created_sort_value,
+        str(item.get("repository", "")),
+        int(item.get("number", 0)),
+    )
 
 
 def issue_fingerprint(item: dict[str, Any]) -> str:
@@ -321,7 +233,8 @@ def issue_fingerprint(item: dict[str, Any]) -> str:
         "number": item.get("number"),
         "updated_at": item.get("updated_at"),
         "claim_state": item.get("claim_state"),
-        "recommend_score": item.get("recommend_score"),
+        "difficulty": item.get("difficulty"),
+        "fit_for_user": item.get("fit_for_user"),
         "should_notify": item.get("should_notify"),
     }
     return hashlib.sha1(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()

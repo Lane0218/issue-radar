@@ -2,7 +2,7 @@
 
 定时抓取 GitHub issue，读取正文与评论，并分两层判断：
 - 规则层判断认领状态：`claimed / open`
-- AI 只判断难度、类别、适配度和推荐指数
+- AI 只判断难度、类别、适配度与问题摘要
 - 只对最近 14 天内创建、且首次看到的新 issue 做 AI 分析，避免重复调用模型
 
 当前默认只监控 `llvm/llvm-project`。
@@ -15,8 +15,8 @@
 - 输出原始 JSON 到 `data/raw/issues.json`
 - 调用 AI 输出分析结果到 `data/enriched/issues.analyzed.json`
 - 维护 `data/state/analyzed_issues.json`，只分析新 issue
-- 结合你的画像生成推荐指数
-- 去重后为高分 issue 生成邮件通知，正文包含 issue 创建时间（北京时间）
+- 结合你的画像判断适配度与难度
+- 去重后为匹配条件的 issue 生成邮件通知，正文包含适配度、难度和 issue 创建时间（北京时间）
 - 支持 GitHub Actions 在每小时 `07`、`37` 分执行一次
 - `claimed` issue 只写状态、不进入分析结果
 - AI 调用失败时只重试 1 次，仍失败则直接丢弃，不生成保底分析
@@ -59,7 +59,6 @@ python3 scripts/control_monitor.py resume
 - GitHub 搜索条件
 - 每条查询的 `source_signals`
 - 抓取上限
-- 通知阈值
 - `max_issue_age_days`，默认只处理最近 14 天创建的 issue
 
 ### `data/state/monitor_control.json`

@@ -17,6 +17,7 @@ from issue_radar.analysis import (
     build_heuristics,
     build_skip_ai_result,
     determine_claim_state,
+    issue_sort_key,
     normalize_ai_result,
 )
 from issue_radar.config import (
@@ -82,10 +83,9 @@ def _build_state_entry(bundle: dict[str, Any], claim_state: str) -> dict[str, An
 def _analyze_candidate(
     bundle: dict[str, Any],
     profile: dict[str, Any],
-    notify_threshold: int,
 ) -> dict[str, Any]:
     logger = logging.getLogger("analyze_issues")
-    heuristics = build_heuristics(bundle, profile)
+    heuristics = build_heuristics(bundle)
     claim_state, claim_reason = determine_claim_state(bundle, heuristics)
     issue = bundle["issue"]
     issue_key = _issue_key(bundle)
@@ -111,7 +111,6 @@ def _analyze_candidate(
             heuristics,
             claim_state=claim_state,
             claim_reason=claim_reason,
-            notify_threshold=notify_threshold,
         )
         return base | final
 
@@ -129,7 +128,6 @@ def _analyze_candidate(
                 heuristics,
                 claim_state=claim_state,
                 claim_reason=claim_reason,
-                notify_threshold=notify_threshold,
             )
             return base | final
         except Exception as exc:  # noqa: BLE001
@@ -189,7 +187,7 @@ def main() -> int:
         within_age_limit, age_reason = _is_issue_within_age_limit(bundle, monitor_config.max_issue_age_days)
         if not within_age_limit:
             logger.info("Skipping %s because %s", issue_key, age_reason)
-            claim_state, _ = determine_claim_state(bundle, build_heuristics(bundle, profile))
+            claim_state, _ = determine_claim_state(bundle, build_heuristics(bundle))
             seen_issues[issue_key] = _build_state_entry(bundle, claim_state)
             skipped_old += 1
             continue
@@ -211,7 +209,7 @@ def main() -> int:
     ai_candidates = []
     skipped_claimed = 0
     for bundle in new_bundles:
-        heuristics = build_heuristics(bundle, profile)
+        heuristics = build_heuristics(bundle)
         claim_state, claim_reason = determine_claim_state(bundle, heuristics)
         issue_key = _issue_key(bundle)
 
@@ -239,7 +237,7 @@ def main() -> int:
         logger.info("Starting AI analysis for %s issues with concurrency=%s", len(ai_candidates), max_workers)
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             future_map = {
-                executor.submit(_analyze_candidate, bundle, profile, monitor_config.notify_threshold): bundle
+                executor.submit(_analyze_candidate, bundle, profile): bundle
                 for bundle in ai_candidates
             }
             dropped_count = 0
@@ -250,13 +248,12 @@ def main() -> int:
                 try:
                     final = future.result()
                     logger.info(
-                        "AI result for %s: claim_state=%s difficulty=%s category=%s fit=%s score=%s notify=%s",
+                        "AI result for %s: claim_state=%s difficulty=%s category=%s fit=%s notify=%s",
                         issue_key,
                         final["claim_state"],
                         final["difficulty"],
                         final["category"],
                         final["fit_for_user"],
-                        final["recommend_score"],
                         final["should_notify"],
                     )
                     seen_issues[issue_key] = _build_state_entry(bundle, final["claim_state"])
@@ -270,7 +267,7 @@ def main() -> int:
                     )
             logger.info("Dropped %s issues after AI failures", dropped_count)
 
-    analyzed.sort(key=lambda item: item["recommend_score"], reverse=True)
+    analyzed.sort(key=issue_sort_key)
     dump_json(args.output, analyzed)
     dump_json(args.state, {"issues": seen_issues})
     logger.info("Wrote %s successfully analyzed issues into %s", len(analyzed), args.output)

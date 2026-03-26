@@ -22,15 +22,22 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Resolve monitor status
+        id: monitor
+        run: python scripts/control_monitor.py status --github-output "$GITHUB_OUTPUT"
+
       - name: Install dependencies
+        if: steps.monitor.outputs.should_run == 'true'
         run: python -m pip install -e .
 
       - name: Fetch issues
+        if: steps.monitor.outputs.should_run == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/fetch_issues.py
 
       - name: Analyze issues
+        if: steps.monitor.outputs.should_run == 'true'
         env:
           AI_BASE_URL: ${{ secrets.AI_BASE_URL }}
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
@@ -41,10 +48,11 @@ jobs:
 
       - name: Prepare notification
         id: notify
+        if: steps.monitor.outputs.should_run == 'true'
         run: python scripts/notify.py
 
       - name: Send email
-        if: steps.notify.outputs.should_send == 'true'
+        if: steps.monitor.outputs.should_run == 'true' && steps.notify.outputs.should_send == 'true'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
@@ -58,6 +66,7 @@ jobs:
           from: ${{ secrets.NOTIFY_FROM }}
 
       - name: Commit state files
+        if: steps.monitor.outputs.should_run == 'true'
         run: |
           if git diff --quiet -- data/state/notified_issues.json data/state/analyzed_issues.json; then
             exit 0

@@ -375,6 +375,54 @@
       "title": "[Clang] VectorExprEvaluator::VisitCallExpr / InterpretBuiltin - allow VDBPSADBW intrinsics to be used in constexpr",
       "created_at": "2026-03-26T13:41:44Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188759": {
+      "seen_at": "2026-03-26T15:53:46+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188759,
+      "title": "Crash in clang 22",
+      "created_at": "2026-03-26T14:33:48Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188764": {
+      "seen_at": "2026-03-26T15:53:46+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188764,
+      "title": "UNREACHABLE executed: cannot apply another specifier to MCSpecifierExpr",
+      "created_at": "2026-03-26T15:05:18Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188766": {
+      "seen_at": "2026-03-26T15:53:46+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188766,
+      "title": "[lldb] Deadlock when setting a regex breakpoint + non-existing source file",
+      "created_at": "2026-03-26T15:06:22Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188775": {
+      "seen_at": "2026-03-26T15:53:49+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188775,
+      "title": "[cross-project-tests] Dexter test expect_step_kind/direction.cpp failing on Linux",
+      "created_at": "2026-03-26T15:52:43Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188754": {
+      "seen_at": "2026-03-26T15:53:49+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188754,
+      "title": "Clang format does not remove spaces inside dependent nested name specifiers",
+      "created_at": "2026-03-26T14:28:17Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188763": {
+      "seen_at": "2026-03-26T15:53:49+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188763,
+      "title": "AddressSanitizer should support -MDd / -MTd on Windows",
+      "created_at": "2026-03-26T14:53:17Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

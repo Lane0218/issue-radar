@@ -503,6 +503,22 @@
       "title": "[Orc] Encodes instructions with wrong endianess on aarch64_be",
       "created_at": "2026-03-26T21:56:40Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188880": {
+      "seen_at": "2026-03-26T23:43:43+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188880,
+      "title": "[Flang][OpenMP] Compilation abnormally terminates when initializer clause and reduction-identifier with name (max) are specified in declare reduction directive",
+      "created_at": "2026-03-26T23:38:01Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188879": {
+      "seen_at": "2026-03-26T23:43:44+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188879,
+      "title": "[Flang] An array with the same name as a intrinsic function defined in a module is recognized as that intrinsic function",
+      "created_at": "2026-03-26T23:37:55Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

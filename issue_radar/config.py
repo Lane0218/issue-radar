@@ -32,6 +32,7 @@ class RepoQuery:
 @dataclass
 class MonitorConfig:
     notify_threshold: int
+    max_issue_age_days: int
     repositories: list[RepoQuery]
 
 
@@ -49,6 +50,7 @@ def load_monitor_config(path: Path = DEFAULT_REPOS_CONFIG) -> MonitorConfig:
         raise ValueError(f"No repositories configured in {path}")
     return MonitorConfig(
         notify_threshold=int(payload.get("notify_threshold", 80)),
+        max_issue_age_days=int(payload.get("max_issue_age_days", 14)),
         repositories=repositories,
     )
 

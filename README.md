@@ -1,12 +1,13 @@
 # issue-radar
 
 定时抓取 GitHub issue，读取正文与评论，并分两层判断：
-- 规则层判断认领状态：`claimed / maybe_claimed / open`
+- 规则层判断认领状态：`claimed / open`
 - AI 只判断难度、类别、适配度和推荐指数
-- 只对新 issue 做 AI 分析，避免重复调用模型
+- 只对最近 14 天内创建、且首次看到的新 issue 做 AI 分析，避免重复调用模型
 
 当前默认只监控 `llvm/llvm-project`。
 除了 `good first issue` 之外，也会补充抓取 `docs/tests/cleanup/refactor/typo/comment` 等标签或关键词信号，扩大低门槛 issue 覆盖面。
+如果 issue 已经有非机器人、且不是 issue 创建者本人的评论，则直接视为已有人跟进。
 
 ## 能力
 - 通过 GitHub API 抓取 issue、评论、timeline 事件
@@ -15,7 +16,7 @@
 - 调用 AI 输出分析结果到 `data/enriched/issues.analyzed.json`
 - 维护 `data/state/analyzed_issues.json`，只分析新 issue
 - 结合你的画像生成推荐指数
-- 去重后为高分 issue 生成邮件通知
+- 去重后为高分 issue 生成邮件通知，正文包含 issue 创建时间（北京时间）
 - 支持 GitHub Actions 在每小时 `07`、`37` 分执行一次
 - `claimed` issue 只写状态、不进入分析结果
 - AI 调用失败时只重试 1 次，仍失败则直接丢弃，不生成保底分析
@@ -27,6 +28,17 @@ python3 scripts/fetch_issues.py
 python3 scripts/analyze_issues.py
 python3 scripts/notify.py
 ```
+
+## 监控控制
+```bash
+python3 scripts/control_monitor.py status
+python3 scripts/control_monitor.py pause
+python3 scripts/control_monitor.py resume
+```
+
+- `pause` 会完全冻结监控：不抓取、不分析、不通知，也不更新现有 state 文件
+- `resume` 后从恢复后的正常轮询继续，不补扫暂停期间错过的 issue
+- 暂停或恢复后，需要把 `data/state/monitor_control.json` 提交到仓库，GitHub Actions 才会按新状态执行
 
 ## 环境变量
 ### GitHub
@@ -48,6 +60,11 @@ python3 scripts/notify.py
 - 每条查询的 `source_signals`
 - 抓取上限
 - 通知阈值
+- `max_issue_age_days`，默认只处理最近 14 天创建的 issue
+
+### `data/state/monitor_control.json`
+- `status`：`running / paused`
+- `paused_at / resumed_at / updated_at`：状态变更时间戳
 
 ### `config/profile.yaml`
 - 熟悉语言
@@ -70,11 +87,13 @@ python3 scripts/notify.py
 - `NOTIFY_FROM`
 
 工作流会：
-1. 抓取 issue
-2. 规则层识别 `claimed / maybe_claimed / open`
-3. 只对新 issue 进行 AI 分析
-4. `claimed` 直接跳过 AI
-5. 同一 issue 被多个查询命中时会合并 `matched_queries/source_signals`
-5. 判断是否需要通知
-6. 如有需要，发送邮件
-7. 更新 `data/state/notified_issues.json` 和 `data/state/analyzed_issues.json`
+1. 读取 `data/state/monitor_control.json`，判断当前是否暂停
+2. 若未暂停，抓取 issue
+3. 跳过超过 `max_issue_age_days` 的旧 issue
+4. 规则层识别 `claimed / open`
+5. 只对新 issue 进行 AI 分析
+6. `claimed` 直接跳过 AI
+7. 同一 issue 被多个查询命中时会合并 `matched_queries/source_signals`
+8. 判断是否需要通知
+9. 如有需要，发送邮件
+10. 更新 `data/state/notified_issues.json` 和 `data/state/analyzed_issues.json`

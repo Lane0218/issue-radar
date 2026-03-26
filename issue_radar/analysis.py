@@ -28,7 +28,7 @@ CLAIM_PATTERNS = [
     ]
 ]
 
-CLAIM_STATES = {"claimed", "maybe_claimed", "open"}
+CLAIM_STATES = {"claimed", "open"}
 CATEGORY_VALUES = {"compiler", "mlir", "llvm", "frontend", "docs", "tests", "other"}
 DIFFICULTY_VALUES = {"low", "medium_low", "too_hard", "unclear"}
 FIT_VALUES = {"good_fit", "possible_fit", "poor_fit"}
@@ -78,20 +78,23 @@ def build_heuristics(issue_bundle: dict[str, Any], profile: dict[str, Any]) -> d
     comments = issue_bundle.get("comments", [])
     linked_prs = issue_bundle.get("linked_pull_requests", [])
 
-    human_comments = []
+    issue_author = (issue.get("author") or "").strip().lower()
+    other_participant_comments = []
     claim_comment_evidence = []
     for comment in comments:
         author = comment.get("author")
         body = comment.get("body") or ""
         if is_bot_author(author):
             continue
-        human_comments.append(
-            {
-                "author": author,
-                "created_at": comment.get("created_at"),
-                "body": truncate_text(body, 280),
-            }
-        )
+        normalized_author = (author or "").strip().lower()
+        if normalized_author and normalized_author != issue_author:
+            other_participant_comments.append(
+                {
+                    "author": author,
+                    "created_at": comment.get("created_at"),
+                    "body": truncate_text(body, 280),
+                }
+            )
         for pattern in CLAIM_PATTERNS:
             if pattern.search(body):
                 claim_comment_evidence.append(
@@ -116,7 +119,7 @@ def build_heuristics(issue_bundle: dict[str, Any], profile: dict[str, Any]) -> d
 
     return {
         "linked_pull_requests": linked_prs,
-        "human_comments": human_comments,
+        "other_participant_comments": other_participant_comments,
         "claim_comment_evidence": claim_comment_evidence,
         "preferred_categories": sorted(preferred_categories),
         "matched_avoid_topics": matched_avoid_topics,
@@ -143,15 +146,15 @@ def determine_claim_state(issue_bundle: dict[str, Any], heuristics: dict[str, An
             f"Claim-like comment from @{evidence['author']} at {evidence['created_at']}: {evidence['body']}",
         )
 
-    human_comments = heuristics.get("human_comments", [])
-    if human_comments:
-        latest = human_comments[-1]
+    other_participant_comments = heuristics.get("other_participant_comments", [])
+    if other_participant_comments:
+        latest = other_participant_comments[-1]
         return (
-            "maybe_claimed",
-            f"Non-bot comment exists from @{latest['author']} at {latest['created_at']}: {latest['body']}",
+            "claimed",
+            f"Non-bot, non-author comment from @{latest['author']} at {latest['created_at']}: {latest['body']}",
         )
 
-    return "open", "No assignee, linked PR, claim-like comment, or non-bot comment detected."
+    return "open", "No assignee, linked PR, claim-like comment, or non-bot, non-author comment detected."
 
 
 def build_ai_prompts(issue_bundle: dict[str, Any], profile: dict[str, Any]) -> tuple[str, str]:
@@ -297,9 +300,6 @@ def apply_post_rules(
         score = min(score, 30)
         adjustments.append("avoid_topic cap 30")
 
-    if claim_state == "claimed":
-        score = min(score, 35)
-
     score = clamp(score)
     result["claim_state"] = claim_state
     result["claim_reason"] = claim_reason
@@ -307,7 +307,7 @@ def apply_post_rules(
     result["score_adjustments"] = adjustments
     result["source_score_adjustments"] = source_adjustments
     result["should_notify"] = (
-        claim_state in {"open", "maybe_claimed"}
+        claim_state == "open"
         and result["difficulty"] in {"low", "medium_low"}
         and result["fit_for_user"] in {"good_fit", "possible_fit"}
         and score >= notify_threshold

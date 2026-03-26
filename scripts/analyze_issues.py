@@ -6,6 +6,7 @@ import argparse
 import logging
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -42,6 +43,28 @@ def _parse_args() -> argparse.Namespace:
 
 def _issue_key(bundle: dict[str, Any]) -> str:
     return f"{bundle['repository']}#{bundle['issue']['number']}"
+
+
+def _parse_iso_datetime(value: str) -> datetime:
+    normalized = value.replace("Z", "+00:00")
+    return datetime.fromisoformat(normalized)
+
+
+def _is_issue_within_age_limit(bundle: dict[str, Any], max_issue_age_days: int) -> tuple[bool, str]:
+    issue = bundle["issue"]
+    created_at_raw = issue.get("created_at")
+    if not created_at_raw:
+        return False, "Issue missing created_at."
+
+    created_at = _parse_iso_datetime(created_at_raw)
+    cutoff = datetime.now(timezone.utc) - timedelta(days=max_issue_age_days)
+    if created_at < cutoff:
+        return (
+            False,
+            f"Issue created_at={created_at_raw} is older than max_issue_age_days={max_issue_age_days} "
+            f"(cutoff={cutoff.isoformat(timespec='seconds')}).",
+        )
+    return True, ""
 
 
 def _build_state_entry(bundle: dict[str, Any], claim_state: str) -> dict[str, Any]:
@@ -142,6 +165,7 @@ def main() -> int:
     logger.info("Loaded %s raw issues", len(raw_issues))
     profile = load_profile(args.profile)
     monitor_config = load_monitor_config(args.repos_config)
+    logger.info("Applying max_issue_age_days=%s", monitor_config.max_issue_age_days)
     analysis_state = load_json(args.state, default={"issues": {}})
     seen_issues: dict[str, Any] = dict(analysis_state.get("issues", {}))
 
@@ -156,17 +180,31 @@ def main() -> int:
     )
 
     new_bundles = []
+    skipped_old = 0
     for bundle in raw_issues:
         issue_key = _issue_key(bundle)
         if issue_key in seen_issues:
             logger.info("Skipping already analyzed issue %s", issue_key)
             continue
+        within_age_limit, age_reason = _is_issue_within_age_limit(bundle, monitor_config.max_issue_age_days)
+        if not within_age_limit:
+            logger.info("Skipping %s because %s", issue_key, age_reason)
+            claim_state, _ = determine_claim_state(bundle, build_heuristics(bundle, profile))
+            seen_issues[issue_key] = _build_state_entry(bundle, claim_state)
+            skipped_old += 1
+            continue
         new_bundles.append(bundle)
 
-    logger.info("Found %s new issues to process", len(new_bundles))
+    logger.info(
+        "Found %s new issues to process after skipping %s issues outside the age limit",
+        len(new_bundles),
+        skipped_old,
+    )
     if not new_bundles:
         dump_json(args.output, [])
+        dump_json(args.state, {"issues": seen_issues})
         logger.info("No new issues required analysis. Wrote empty result to %s", args.output)
+        logger.info("Updated analysis state in %s", args.state)
         return 0
 
     analyzed: list[dict[str, Any]] = []

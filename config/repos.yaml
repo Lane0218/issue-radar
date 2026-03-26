@@ -1,4 +1,5 @@
 notify_threshold: 80
+max_issue_age_days: 14
 
 repositories:
   - key: llvm-project-good-first-issue

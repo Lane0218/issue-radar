@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-import json
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
 from .analysis import issue_fingerprint
 from .utils import dump_json, load_json, now_iso
+
+
+BEIJING_TZ = timezone(timedelta(hours=8))
 
 
 def pick_notification_candidates(items: list[dict[str, Any]], state: dict[str, Any]) -> list[dict[str, Any]]:
@@ -26,32 +29,45 @@ def pick_notification_candidates(items: list[dict[str, Any]], state: dict[str, A
 def _render_claim_state(claim_state: str) -> str:
     mapping = {
         "open": "空闲",
-        "maybe_claimed": "可能已有人关注",
         "claimed": "已认领",
     }
     return mapping.get(claim_state, claim_state)
 
 
+def _render_created_at(created_at: str | None) -> str:
+    if not created_at:
+        return "未知"
+    try:
+        parsed = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+    except ValueError:
+        return created_at
+    return parsed.astimezone(BEIJING_TZ).strftime("%Y-%m-%d %H:%M 北京时间")
+
+
 def render_email(candidates: list[dict[str, Any]]) -> tuple[str, str]:
     subject = f"[issue-radar] 发现 {len(candidates)} 个值得关注的 issue"
     lines = [
-        "issue-radar 为你筛到了以下值得关注的 issue：",
+        "issue-radar 为你筛到了以下值得关注的 issue。",
+        "已按推荐指数从高到低排序：",
         "",
     ]
     for index, item in enumerate(candidates, start=1):
+        meta_line = (
+            f"推荐指数：{item['recommend_score']} | "
+            f"创建时间：{_render_created_at(item.get('created_at'))} | "
+            f"当前状态：{_render_claim_state(item['claim_state'])}"
+        )
         lines.extend(
             [
-                f"{index}. {item['repository']} #{item['number']} {item['title']}",
-                f"   链接：{item['html_url']}",
-                f"   推荐指数：{item['recommend_score']}",
-                f"   当前状态：{_render_claim_state(item['claim_state'])}",
-                f"   问题简介：{item.get('issue_summary_zh', '') or '暂无简介'}",
-                f"   建议工作：{item.get('work_needed_zh', '') or '暂无建议'}",
+                f"[{index}] {item['repository']} #{item['number']}",
+                f"标题：{item['title']}",
+                meta_line,
+                f"链接：{item['html_url']}",
+                f"问题简介：{item.get('issue_summary_zh', '') or '暂无简介'}",
+                f"建议工作：{item.get('work_needed_zh', '') or '暂无建议'}",
+                "-" * 64,
             ]
         )
-        if item["claim_state"] == "maybe_claimed":
-            lines.append("   提醒：存在非机器人评论，建议先人工确认是否已有人跟进。")
-        lines.append("")
     return subject, "\n".join(lines).strip() + "\n"
 
 

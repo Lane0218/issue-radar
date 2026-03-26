@@ -479,6 +479,30 @@
       "title": "[clang] clang frontend command failed with exit code 139",
       "created_at": "2026-03-26T21:29:43Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188853": {
+      "seen_at": "2026-03-26T22:46:29+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188853,
+      "title": "[clang][C++20 modules] textual `#include` sandwiched between two `import` declarations loses enum declarations",
+      "created_at": "2026-03-26T21:49:09Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188867": {
+      "seen_at": "2026-03-26T22:46:32+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188867,
+      "title": "String literal concatenations which mix different encoding prefixes are incorrectly accepted in ignored attributes",
+      "created_at": "2026-03-26T22:41:03Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188855": {
+      "seen_at": "2026-03-26T22:46:34+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188855,
+      "title": "[Orc] Encodes instructions with wrong endianess on aarch64_be",
+      "created_at": "2026-03-26T21:56:40Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

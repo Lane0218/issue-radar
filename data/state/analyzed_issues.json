@@ -455,6 +455,22 @@
       "title": "[Flang][OpenMP] Implement OpenMP 5.2 metadirective",
       "created_at": "2026-03-26T18:40:16Z",
       "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188835": {
+      "seen_at": "2026-03-26T20:48:05+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188835,
+      "title": "[PassManager] Detect analysis invalidations that take up the most compile time",
+      "created_at": "2026-03-26T20:13:46Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188832": {
+      "seen_at": "2026-03-26T20:48:05+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188832,
+      "title": "[LifetimeSafety] False-negative with dereferencing std::optional of libc++",
+      "created_at": "2026-03-26T19:50:09Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

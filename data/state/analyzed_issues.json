@@ -359,6 +359,14 @@
       "title": "Qualifiers on the return type are not ignored in a function declaration",
       "created_at": "2026-03-26T10:47:07Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#186220": {
+      "seen_at": "2026-03-26T12:11:13+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 186220,
+      "title": "Crash in verifier llvm-as",
+      "created_at": "2026-03-12T19:29:21Z",
+      "claim_state_at_first_seen": "claimed"
     }
   }
 }

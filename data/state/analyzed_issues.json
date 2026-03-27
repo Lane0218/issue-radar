@@ -519,6 +519,46 @@
       "title": "[Flang] An array with the same name as a intrinsic function defined in a module is recognized as that intrinsic function",
       "created_at": "2026-03-26T23:37:55Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188897": {
+      "seen_at": "2026-03-27T03:26:02+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188897,
+      "title": "Compilation Crash in PseudoProbeManager::getDesc",
+      "created_at": "2026-03-27T02:35:45Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188892": {
+      "seen_at": "2026-03-27T03:26:06+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188892,
+      "title": "[Flang][OpenMP] nonblock DO construct with shared termination causes false loop-construct error.",
+      "created_at": "2026-03-27T01:48:27Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188885": {
+      "seen_at": "2026-03-27T03:26:06+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188885,
+      "title": "[Flang] LBOUND fails with ALLOCATE statement without allocate-shape-spec-list",
+      "created_at": "2026-03-27T00:27:52Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188884": {
+      "seen_at": "2026-03-27T03:26:06+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188884,
+      "title": "[Flang] Incorrect `ASSOCIATED()` result and crash when a procedure pointer is associated with an internal procedure from within that procedure itself",
+      "created_at": "2026-03-27T00:17:50Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188900": {
+      "seen_at": "2026-03-27T03:26:09+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188900,
+      "title": "[ORC] Unconditional dbgs() in JITLoaderPerf writeUnwindRecord",
+      "created_at": "2026-03-27T03:16:21Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

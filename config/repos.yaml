@@ -122,6 +122,39 @@ repositories:
     max_issues: 6
     max_comments: 30
 
+  - key: llvm-project-clang-format-keyword
+    owner: llvm
+    repo: llvm-project
+    query: 'is:issue is:open "clang-format" in:title'
+    source_signals:
+      - clang_format_interest
+    sort: created
+    order: desc
+    max_issues: 6
+    max_comments: 30
+
+  - key: llvm-project-cir-keyword
+    owner: llvm
+    repo: llvm-project
+    query: 'is:issue is:open "[CIR]" in:title'
+    source_signals:
+      - cir_interest
+    sort: created
+    order: desc
+    max_issues: 6
+    max_comments: 30
+
+  - key: llvm-project-clangir-keyword
+    owner: llvm
+    repo: llvm-project
+    query: 'is:issue is:open ClangIR in:title'
+    source_signals:
+      - clangir_interest
+    sort: created
+    order: desc
+    max_issues: 6
+    max_comments: 30
+
   - key: llvm-project-no-assignee-low-comment
     owner: llvm
     repo: llvm-project

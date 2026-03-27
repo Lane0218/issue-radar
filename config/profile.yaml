@@ -6,9 +6,17 @@ preferred_domains:
   - 编译器
   - MLIR
   - LLVM
+  - Clang
+  - CIR
+  - ClangIR
   - 前端
   - 文档
   - 测试
+
+preferred_topics:
+  - clang-format
+  - CIR
+  - ClangIR
 
 preferred_difficulty:
   - 低

@@ -7,6 +7,7 @@
 
 当前默认只监控 `llvm/llvm-project`。
 除了 `good first issue` 之外，也会补充抓取 `docs/tests/cleanup/refactor/typo/comment` 等标签或关键词信号，扩大低门槛 issue 覆盖面。
+当前配置也会额外关注 `clang-format` 与 `CIR/ClangIR` 相关 issue。
 如果 issue 已经有非机器人、且不是 issue 创建者本人的评论，则直接视为已有人跟进。
 
 ## 能力

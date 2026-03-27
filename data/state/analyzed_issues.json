@@ -559,6 +559,30 @@
       "title": "[ORC] Unconditional dbgs() in JITLoaderPerf writeUnwindRecord",
       "created_at": "2026-03-27T03:16:21Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188907": {
+      "seen_at": "2026-03-27T05:26:01+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188907,
+      "title": "[Clang][Modules] explicit specifier lost on template conversion operators after PCM serialization",
+      "created_at": "2026-03-27T04:11:30Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188908": {
+      "seen_at": "2026-03-27T05:26:01+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188908,
+      "title": "[Clang][Modules] Template argument deduction from base class fails through deep module chain",
+      "created_at": "2026-03-27T04:11:34Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188906": {
+      "seen_at": "2026-03-27T05:26:01+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188906,
+      "title": "[Clang][Modules] Crash in ASTContext::getCanonicalTagType during lazy deserialization on namespace reopen",
+      "created_at": "2026-03-27T04:10:37Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

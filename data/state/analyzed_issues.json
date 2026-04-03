@@ -591,6 +591,406 @@
       "title": "Missed Redundant Loop Elimination Caused by Always-Null Internal Global Initialization",
       "created_at": "2026-03-27T05:35:25Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#126834": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 126834,
+      "title": "Upstreaming ClangIR",
+      "created_at": "2025-02-12T01:42:16Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#133404": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 133404,
+      "title": "[clang][clangIR] Missing assignment in loop, which may comes from wrong TBAA.",
+      "created_at": "2025-03-28T09:49:21Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#156747": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 156747,
+      "title": "[CIR] Upstream missing tests from the ClangIR incubator",
+      "created_at": "2025-09-03T20:04:43Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#161441": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 161441,
+      "title": "Fix InlineAsm ClangIR roundtrip",
+      "created_at": "2025-09-30T20:45:35Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#179278": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 179278,
+      "title": "[CIR][TRACKING] CUDA/HIP Support for ClangIR",
+      "created_at": "2026-02-02T16:41:45Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#179952": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 179952,
+      "title": "[CIR] RFC: Re-using existing AArch64 builtin tests for CIR",
+      "created_at": "2026-02-05T14:40:41Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#180587": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 180587,
+      "title": "[CIR] Match OGCG's epilogue codegen",
+      "created_at": "2026-02-09T19:02:05Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187192": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187192,
+      "title": "[libc][math] pre-rounding underflow raises FE_UNDERFLOW",
+      "created_at": "2026-03-18T05:02:48Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187601": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187601,
+      "title": "[CIR] Improve handling of BitInt",
+      "created_at": "2026-03-19T22:22:08Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187764": {
+      "seen_at": "2026-04-03T03:20:20+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187764,
+      "title": "[clang-format] extra space added within comments that use double asterisks to close",
+      "created_at": "2026-03-20T18:45:51Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#187993": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187993,
+      "title": "[clang-format] AllowShortFunctionsOnASingleLine not respected",
+      "created_at": "2026-03-23T08:26:54Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188586": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188586,
+      "title": "[CIR] cir.global optional attributes lead to parsing ambiguity",
+      "created_at": "2026-03-25T20:07:50Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189300": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189300,
+      "title": "[RISCV] Add support of Zvzip extension",
+      "created_at": "2026-03-30T03:23:44Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189483": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189483,
+      "title": "[DAG] computeKnownFPClass - add ISD::FNEG handling + test coverage",
+      "created_at": "2026-03-30T21:06:44Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189583": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189583,
+      "title": "[DAG] computeKnownFPClass - add ISD::SQRT handling + test coverage",
+      "created_at": "2026-03-31T10:25:38Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189585": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189585,
+      "title": "[DAG] computeKnownFPClass - add ISD::EXTRACT_VECTOR_ELT handling + test coverage",
+      "created_at": "2026-03-31T10:27:22Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189586": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189586,
+      "title": "[DAG] computeKnownFPClass - add ISD::EXTRACT_SUBVECTOR/INSERT_SUBVECTOR handling + test coverage",
+      "created_at": "2026-03-31T10:28:08Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189666": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189666,
+      "title": "[CIR] Incorrect CIR_GlobalOp assembly format for `global_visibility` attribute",
+      "created_at": "2026-03-31T13:41:22Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189672": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189672,
+      "title": "[clang-tidy] Add `readability-use-rethrow` check",
+      "created_at": "2026-03-31T14:02:19Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189683": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189683,
+      "title": "[clang][CUDA][doc] Clang does not list `cuda-gpu-arch` as an available option running `--help`",
+      "created_at": "2026-03-31T14:41:19Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189694": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189694,
+      "title": "[DAG] computeKnownFPClass - add ISD::MAXNUM/MINNUM handling + test coverage",
+      "created_at": "2026-03-31T15:43:44Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189764": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189764,
+      "title": "[MIRSampleProfile] nullptr deref crash when profile sample use file not found",
+      "created_at": "2026-03-31T22:17:40Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189908": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189908,
+      "title": "Do you still need commit access?",
+      "created_at": "2026-04-01T08:13:05Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#189949": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189949,
+      "title": "[InstCombiner] foldIntrinsicIsFPClass - incorrect submasking of FPClassTest masks",
+      "created_at": "2026-04-01T12:50:42Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190103": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190103,
+      "title": "[CHR] Crash at -O3 with profile data: CHR creates invalid IR",
+      "created_at": "2026-04-02T04:06:58Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190138": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190138,
+      "title": "Clang's support for aligned attributes on enums in C does not appear to have been thought through",
+      "created_at": "2026-04-02T09:33:08Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190169": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190169,
+      "title": "[Clang] C++26 fold expression in concept constraint expands pack incorrectly when constrained lambda is nested inside generic lambda",
+      "created_at": "2026-04-02T13:13:40Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190187": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190187,
+      "title": "SeparateConstOffsetFromGEP: incorrectly preserved inbounds flag",
+      "created_at": "2026-04-02T15:00:48Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190201": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190201,
+      "title": "Request Commit Access For manon-traverse",
+      "created_at": "2026-04-02T15:48:56Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190218": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190218,
+      "title": "clang-tidy misc-const-correctness reports false-positive for pointee types",
+      "created_at": "2026-04-02T17:38:32Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190255": {
+      "seen_at": "2026-04-03T03:20:21+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190255,
+      "title": "[LLDB] GetModuleSpecifications mutates shared DataExtractor causing heap corruption",
+      "created_at": "2026-04-02T20:22:35Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#188111": {
+      "seen_at": "2026-04-03T03:20:24+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188111,
+      "title": "[clang-format] Newline inserted before inline lambda body when ColumnLimit set to 0",
+      "created_at": "2026-03-23T19:54:42Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#187987": {
+      "seen_at": "2026-04-03T03:20:24+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187987,
+      "title": "[clang-format] Unexpected alignment of assignments when function arguments do not fit on a single line",
+      "created_at": "2026-03-23T07:30:02Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#187891": {
+      "seen_at": "2026-04-03T03:20:25+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 187891,
+      "title": "[clang-format] Add additional sorts similar to `SortIncludes`",
+      "created_at": "2026-03-21T23:53:54Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#188332": {
+      "seen_at": "2026-04-03T03:20:27+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 188332,
+      "title": "Clang CodeGenPrepare asserts building llvmlibc with LLVM_ENABLE_EXPENSIVE_CHECKS=O",
+      "created_at": "2026-03-24T20:00:05Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#189384": {
+      "seen_at": "2026-04-03T03:20:28+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189384,
+      "title": "[clang-format] `SeparateDefinitionBlocks: Always` separates trailing block comments (relevant for `// NOLINTEND`)",
+      "created_at": "2026-03-30T13:53:45Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#189201": {
+      "seen_at": "2026-04-03T03:20:28+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189201,
+      "title": "Regression: [znver3] Loop unrolling regression for `_mm_dp_ps` / `vdpps` between LLVM 18 and LLVM 23",
+      "created_at": "2026-03-29T00:09:43Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#189603": {
+      "seen_at": "2026-04-03T03:20:30+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189603,
+      "title": "P3795R2: Miscellaneous Reflection Cleanup",
+      "created_at": "2026-03-31T11:08:18Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#189849": {
+      "seen_at": "2026-04-03T03:20:31+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189849,
+      "title": "LWG4486: `integral-constant-like` and `constexpr-wrapper-like` exposition-only concept duplication",
+      "created_at": "2026-04-01T06:35:04Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#189839": {
+      "seen_at": "2026-04-03T03:20:32+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189839,
+      "title": "LWG4469: Names of parameters of addressable function shall remain unspecified",
+      "created_at": "2026-04-01T06:34:21Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#189852": {
+      "seen_at": "2026-04-03T03:20:34+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189852,
+      "title": "LWG4493: Specification for some functions of bit reference types seems missing",
+      "created_at": "2026-04-01T06:35:18Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#189853": {
+      "seen_at": "2026-04-03T03:20:35+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189853,
+      "title": "LWG4496: Precedes vs Reachable in [meta.reflection]",
+      "created_at": "2026-04-01T06:35:22Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#189993": {
+      "seen_at": "2026-04-03T03:20:36+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189993,
+      "title": "Optimization time regression in InstCombinePass",
+      "created_at": "2026-04-01T16:08:41Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190146": {
+      "seen_at": "2026-04-03T03:20:37+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190146,
+      "title": "Clang fails to resolve namespace alias in dependent member access (Two-Phase Lookup divergence from GCC)",
+      "created_at": "2026-04-02T10:20:51Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190202": {
+      "seen_at": "2026-04-03T03:20:38+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190202,
+      "title": "[Xtensa] TLS symbols get @TPOFF suffix appended to symbol name, causing link failure with GNU ld",
+      "created_at": "2026-04-02T15:57:41Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190204": {
+      "seen_at": "2026-04-03T03:20:39+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190204,
+      "title": "[Xtensa] Missing .literal section emission causes l32r misaligned literal target link errors",
+      "created_at": "2026-04-02T16:02:08Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190208": {
+      "seen_at": "2026-04-03T03:20:41+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190208,
+      "title": "[Xtensa] Cannot select AtomicLoadAdd -- missing atomic lowering for generic Xtensa target",
+      "created_at": "2026-04-02T16:26:52Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190227": {
+      "seen_at": "2026-04-03T03:20:42+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190227,
+      "title": "[C23] Crash on invalid redefinition",
+      "created_at": "2026-04-02T18:14:05Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190246": {
+      "seen_at": "2026-04-03T03:20:43+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190246,
+      "title": "[llc][PPC] ICE in 'PowerPC DAG->DAG Pattern Instruction Selection'",
+      "created_at": "2026-04-02T19:55:20Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190270": {
+      "seen_at": "2026-04-03T03:20:44+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190270,
+      "title": "clang analyzer script's python interpreter is not configurable",
+      "created_at": "2026-04-02T22:01:54Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

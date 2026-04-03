@@ -991,6 +991,22 @@
       "title": "clang analyzer script's python interpreter is not configurable",
       "created_at": "2026-04-02T22:01:54Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190306": {
+      "seen_at": "2026-04-03T05:24:58+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190306,
+      "title": "[WebAssembly] performBitcastCombine crashes when reconstructing wide <N x i1> -> iN bitcasts",
+      "created_at": "2026-04-03T03:50:03Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190308": {
+      "seen_at": "2026-04-03T05:24:58+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190308,
+      "title": "[Xtensa] Segfault in LiveVariables::HandleVirtRegUse at -O1 with invoke and landingpad cleanup",
+      "created_at": "2026-04-03T04:09:37Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

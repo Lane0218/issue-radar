@@ -434,6 +434,16 @@
       "fingerprint": "a275833a8b531f5942e7174f48ebda33f630fcd7",
       "sent_at": "2026-04-03T11:23:59+00:00",
       "updated_at": "2026-04-03T11:17:03Z"
+    },
+    "llvm/llvm-project#190344": {
+      "fingerprint": "c0449bf481abd0b8a163e645df0d592e86856eb7",
+      "sent_at": "2026-04-03T13:36:45+00:00",
+      "updated_at": "2026-04-03T13:09:30Z"
+    },
+    "llvm/llvm-project#190340": {
+      "fingerprint": "ab2343618a9a84a97cbf90578d48245bc68d478a",
+      "sent_at": "2026-04-03T13:36:45+00:00",
+      "updated_at": "2026-04-03T12:53:41Z"
     }
   }
 }

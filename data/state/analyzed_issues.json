@@ -1111,6 +1111,22 @@
       "title": "[clang-tidy] Support C++26 placeholder bindings ",
       "created_at": "2026-04-03T19:07:48Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190396": {
+      "seen_at": "2026-04-03T20:50:53+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190396,
+      "title": "[clang-tidy] Add check to remove redundant empty lambda parameter clauses",
+      "created_at": "2026-04-03T20:01:07Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190400": {
+      "seen_at": "2026-04-03T20:50:56+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190400,
+      "title": "LLVM windows installer lacks x86, ARM ASan libraries",
+      "created_at": "2026-04-03T20:42:27Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

@@ -1079,6 +1079,22 @@
       "title": "[bolt] Errors when TLS relaxation to LE is atypical",
       "created_at": "2026-04-03T17:22:43Z",
       "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190383": {
+      "seen_at": "2026-04-03T19:02:11+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190383,
+      "title": "Mismatched `#pragma clang diagnostic push` suppresses deprecation warnings from system headers",
+      "created_at": "2026-04-03T18:39:34Z",
+      "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190376": {
+      "seen_at": "2026-04-03T19:02:12+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190376,
+      "title": "[lld] crash when including a linker script with an unterminated assignment longer than 28 characters",
+      "created_at": "2026-04-03T17:50:53Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

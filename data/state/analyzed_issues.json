@@ -1135,6 +1135,14 @@
       "title": "Superfluous space in pointer incrementing with clang-format",
       "created_at": "2026-04-03T21:40:44Z",
       "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190429": {
+      "seen_at": "2026-04-03T23:46:00+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190429,
+      "title": "Incorrect stack variable address with musttail",
+      "created_at": "2026-04-03T23:23:28Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

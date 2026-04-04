@@ -1143,6 +1143,22 @@
       "title": "Incorrect stack variable address with musttail",
       "created_at": "2026-04-03T23:23:28Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190433": {
+      "seen_at": "2026-04-04T02:54:54+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190433,
+      "title": "clang-format 20 introduced backwards-incompatible change to BinPackParameters with no documentation about it",
+      "created_at": "2026-04-03T23:58:32Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190435": {
+      "seen_at": "2026-04-04T02:54:54+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190435,
+      "title": "memory leak in the Zig compiler",
+      "created_at": "2026-04-04T00:07:57Z",
+      "claim_state_at_first_seen": "claimed"
     }
   }
 }

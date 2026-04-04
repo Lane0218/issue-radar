@@ -1191,6 +1191,14 @@
       "title": "[Polly] Assertion failure in isl_aff.c:5205 (\"map is not single-valued\") when compiling FFmpeg's swscale_unscaled.c with Polly flags",
       "created_at": "2026-04-04T13:17:32Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190462": {
+      "seen_at": "2026-04-04T14:08:01+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190462,
+      "title": "Attributes are accepted at invalid locations within declarations",
+      "created_at": "2026-04-04T13:53:17Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

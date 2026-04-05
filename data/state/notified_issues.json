@@ -519,6 +519,11 @@
       "fingerprint": "58ef2f37eb463426d309c81ee4cccdef4362f0b8",
       "sent_at": "2026-04-05T05:28:19+00:00",
       "updated_at": "2026-04-05T03:55:34Z"
+    },
+    "llvm/llvm-project#190505": {
+      "fingerprint": "47787d0c644ae21dc2dced174784e84b5c491b4c",
+      "sent_at": "2026-04-05T06:47:11+00:00",
+      "updated_at": "2026-04-05T06:20:30Z"
     }
   }
 }

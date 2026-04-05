@@ -1271,6 +1271,22 @@
       "title": "narrowing conversion in list initialization is not flagged when using conversion function to convert to reference",
       "created_at": "2026-04-05T08:44:48Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190516": {
+      "seen_at": "2026-04-05T10:50:41+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190516,
+      "title": "[LLDB] Calling `SBDebugger.Terminate()` within LLDB's python interpreter causes LLDB to hang forever",
+      "created_at": "2026-04-05T10:10:10Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190517": {
+      "seen_at": "2026-04-05T10:50:44+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190517,
+      "title": "[clang] Assertion `FReturnType && \"expected to see a return type\"' failed.",
+      "created_at": "2026-04-05T10:40:26Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

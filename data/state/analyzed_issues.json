@@ -479,6 +479,22 @@
       "title": "[clang] Incorrect lifetime of lambda `init-capture` temporaries in the `for-range-initializer`",
       "created_at": "2026-04-05T14:06:21Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#190526": {
+      "seen_at": "2026-04-05T15:05:16+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190526,
+      "title": "clangd doesn't use .clang-tidy",
+      "created_at": "2026-04-05T14:10:09Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190531": {
+      "seen_at": "2026-04-05T15:05:31+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190531,
+      "title": "[clangd] Update TidyFastChecks.inc with new tidy checks",
+      "created_at": "2026-04-05T15:02:58Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

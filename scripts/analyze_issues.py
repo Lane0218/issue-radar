@@ -170,10 +170,11 @@ def main() -> int:
     ai_client = AIClient.from_env()
     max_workers = int(os.environ.get("AI_MAX_WORKERS", "3"))
     logger.info(
-        "AI client configured with model=%s base_url=%s timeout=%ss max_workers=%s",
+        "AI client configured with model=%s base_url=%s timeout=%ss reasoning_effort=%s max_workers=%s",
         ai_client.model,
         ai_client.base_url,
         ai_client.timeout,
+        ai_client.reasoning_effort,
         max_workers,
     )
 

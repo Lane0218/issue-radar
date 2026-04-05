@@ -13,8 +13,9 @@ class AIClient:
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
         self.model = model
-        self.timeout = int(os.environ.get("AI_TIMEOUT_SECONDS", "60"))
+        self.timeout = int(os.environ.get("AI_TIMEOUT_SECONDS", "120"))
         self.max_tokens = int(os.environ.get("AI_MAX_TOKENS", "500"))
+        self.reasoning_effort = _normalize_reasoning_effort(os.environ.get("AI_REASONING_EFFORT"))
         self.session = requests.Session()
         self.session.headers.update(
             {
@@ -43,6 +44,8 @@ class AIClient:
                 {"role": "user", "content": user_prompt},
             ],
         }
+        if _should_send_reasoning_effort(self.model):
+            payload["reasoning_effort"] = self.reasoning_effort
         if _should_disable_thinking(self.model):
             payload["enable_thinking"] = False
         response = self.session.post(
@@ -71,3 +74,15 @@ def _extract_json(content: str) -> dict[str, Any]:
 def _should_disable_thinking(model: str) -> bool:
     normalized = model.strip().lower()
     return normalized == "qwen3.5-flash" or normalized.startswith("qwen3.5-flash-")
+
+
+def _should_send_reasoning_effort(model: str) -> bool:
+    normalized = model.strip().lower()
+    return normalized.startswith("gpt-5")
+
+
+def _normalize_reasoning_effort(value: str | None) -> str:
+    normalized = str(value or "medium").strip().lower().replace(" ", "_")
+    if normalized not in {"low", "medium", "high"}:
+        return "medium"
+    return normalized

@@ -49,10 +49,11 @@ python3 scripts/control_monitor.py resume
 - `AI_BASE_URL`
 - `AI_API_KEY`
 - `AI_MODEL`
-- `AI_TIMEOUT_SECONDS`，默认 `60`
+- `AI_REASONING_EFFORT`，默认 `medium`
+- `AI_TIMEOUT_SECONDS`，默认 `120`
 - `AI_MAX_WORKERS`，默认 `3`
 
-默认实现按 OpenAI-compatible 接口调用，第一版建议接 Qwen。
+默认实现按 OpenAI-compatible 接口调用，当前默认推荐 `gpt-5.4`。
 
 ## 配置
 ### `config/repos.yaml`
@@ -80,6 +81,7 @@ python3 scripts/control_monitor.py resume
 - `AI_BASE_URL`
 - `AI_API_KEY`
 - `AI_MODEL`
+- `AI_REASONING_EFFORT`
 - `SMTP_SERVER`
 - `SMTP_PORT`
 - `SMTP_USERNAME`

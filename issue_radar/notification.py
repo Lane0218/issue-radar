@@ -10,26 +10,6 @@ from .utils import dump_json, load_json, now_iso
 
 
 BEIJING_TZ = timezone(timedelta(hours=8))
-FIT_LABELS = {
-    "good_fit": "很适合",
-    "possible_fit": "可以尝试",
-    "poor_fit": "不太适合",
-}
-CATEGORY_LABELS = {
-    "compiler": "编译器",
-    "mlir": "MLIR",
-    "llvm": "LLVM",
-    "frontend": "前端",
-    "docs": "文档",
-    "tests": "测试",
-    "other": "其他",
-}
-DIFFICULTY_LABELS = {
-    "low": "低",
-    "medium_low": "中低",
-    "unclear": "待确认",
-    "too_hard": "偏难",
-}
 
 
 def pick_notification_candidates(items: list[dict[str, Any]], state: dict[str, Any]) -> list[dict[str, Any]]:
@@ -59,36 +39,44 @@ def _render_created_at(created_at: str | None) -> str:
     return parsed.astimezone(BEIJING_TZ).strftime("%Y-%m-%d %H:%M")
 
 
-def _render_fit(fit_for_user: str | None) -> str:
-    return FIT_LABELS.get(str(fit_for_user or "").strip().lower(), fit_for_user or "未知")
+def _normalize_labels(labels: Any) -> list[str]:
+    if not isinstance(labels, list):
+        return []
+    normalized = []
+    for item in labels:
+        value = str(item).strip()
+        if value:
+            normalized.append(value)
+    return normalized
 
 
-def _render_difficulty(difficulty: str | None) -> str:
-    return DIFFICULTY_LABELS.get(str(difficulty or "").strip().lower(), difficulty or "未知")
+def _render_labels_text(labels: Any) -> str:
+    normalized = _normalize_labels(labels)
+    if not normalized:
+        return "暂无 Label"
+    return ", ".join(normalized)
 
 
-def _render_category(category: str | None) -> str:
-    return CATEGORY_LABELS.get(str(category or "").strip().lower(), category or "未知")
+def _render_labels_html(labels: Any) -> str:
+    normalized = _normalize_labels(labels)
+    if not normalized:
+        return '<span class="issue-card__tag issue-card__tag--empty">暂无 Label</span>'
+    return "".join(f'<span class="issue-card__tag">{escape(label)}</span>' for label in normalized)
 
 
 def render_email_text(candidates: list[dict[str, Any]]) -> str:
     lines = [
         "issue-radar 为你筛到了以下值得关注的 issue。",
-        "已按适配度、难度和创建时间排序：",
+        "以下是本轮推荐结果：",
         "",
     ]
     for index, item in enumerate(candidates, start=1):
-        meta_line = (
-            f"适配度：{_render_fit(item.get('fit_for_user'))} | "
-            f"难度：{_render_difficulty(item.get('difficulty'))} | "
-            f"类别：{_render_category(item.get('category'))} | "
-            f"创建时间：{_render_created_at(item.get('created_at'))}"
-        )
         lines.extend(
             [
                 f"[{index}] {item['repository']} #{item['number']}",
                 f"标题：{item['title']}",
-                meta_line,
+                f"创建时间：{_render_created_at(item.get('created_at'))}",
+                f"Label：{_render_labels_text(item.get('labels'))}",
                 f"链接：{item['html_url']}",
                 f"问题简介：{item.get('issue_summary_zh', '') or '暂无简介'}",
                 f"建议工作：{item.get('work_needed_zh', '') or '暂无建议'}",
@@ -104,10 +92,8 @@ def render_email_html(candidates: list[dict[str, Any]]) -> str:
         repository = escape(str(item["repository"]))
         number = escape(str(item["number"]))
         title = escape(str(item["title"]))
-        fit = escape(_render_fit(item.get("fit_for_user")))
-        difficulty = escape(_render_difficulty(item.get("difficulty")))
-        category = escape(_render_category(item.get("category")))
         created_at = escape(_render_created_at(item.get("created_at")))
+        labels_html = _render_labels_html(item.get("labels"))
         html_url = escape(str(item["html_url"]), quote=True)
         issue_summary = escape(item.get("issue_summary_zh", "") or "暂无简介")
         work_needed = escape(item.get("work_needed_zh", "") or "暂无建议")
@@ -119,11 +105,9 @@ def render_email_html(candidates: list[dict[str, Any]]) -> str:
                 <p class="issue-card__repo">{repository} #{number}</p>
                 <h2 class="issue-card__title">{title}</h2>
                 <div class="issue-card__meta">
-                  <span>适配度：{fit}</span>
-                  <span>难度：{difficulty}</span>
-                  <span>类别：{category}</span>
                   <span>创建时间：{created_at}</span>
                 </div>
+                <div class="issue-card__tags">{labels_html}</div>
                 <p class="issue-card__section"><strong>问题简介：</strong>{issue_summary}</p>
                 <p class="issue-card__section"><strong>建议工作：</strong>{work_needed}</p>
                 <p class="issue-card__link"><a href="{html_url}">查看 issue</a></p>
@@ -226,9 +210,24 @@ def render_email_html(candidates: list[dict[str, Any]]) -> str:
         line-height: 1.8;
         color: #4b5563;
       }}
-      .issue-card__meta span {{
+      .issue-card__tags {{
+        margin: 0 0 14px;
+      }}
+      .issue-card__tag {{
         display: inline-block;
-        margin-right: 14px;
+        margin: 0 8px 8px 0;
+        padding: 5px 10px;
+        border: 1px solid #dcc9ad;
+        border-radius: 999px;
+        background: #fff4df;
+        color: #735437;
+        font-size: 12px;
+        line-height: 1.3;
+      }}
+      .issue-card__tag--empty {{
+        background: #f6f0e6;
+        border-color: #e5dbcb;
+        color: #8d7d68;
       }}
       .issue-card__section {{
         margin: 0 0 10px;
@@ -276,7 +275,7 @@ def render_email_html(candidates: list[dict[str, Any]]) -> str:
         <header class="hero">
           <p class="eyebrow">issue-radar</p>
           <h1 class="title">发现 {len(candidates)} 个值得关注的 issue</h1>
-          <p class="subtitle">已按适配度、难度和创建时间排序。</p>
+          <p class="subtitle">以下是本轮推荐结果。</p>
         </header>
         <div class="issues">
           {"".join(cards)}

@@ -14,6 +14,15 @@ FIT_LABELS = {
     "possible_fit": "可以尝试",
     "poor_fit": "不太适合",
 }
+CATEGORY_LABELS = {
+    "compiler": "编译器",
+    "mlir": "MLIR",
+    "llvm": "LLVM",
+    "frontend": "前端",
+    "docs": "文档",
+    "tests": "测试",
+    "other": "其他",
+}
 DIFFICULTY_LABELS = {
     "low": "低",
     "medium_low": "中低",
@@ -39,14 +48,6 @@ def pick_notification_candidates(items: list[dict[str, Any]], state: dict[str, A
     return candidates
 
 
-def _render_claim_state(claim_state: str) -> str:
-    mapping = {
-        "open": "空闲",
-        "claimed": "已认领",
-    }
-    return mapping.get(claim_state, claim_state)
-
-
 def _render_created_at(created_at: str | None) -> str:
     if not created_at:
         return "未知"
@@ -54,7 +55,7 @@ def _render_created_at(created_at: str | None) -> str:
         parsed = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
     except ValueError:
         return created_at
-    return parsed.astimezone(BEIJING_TZ).strftime("%Y-%m-%d %H:%M 北京时间")
+    return parsed.astimezone(BEIJING_TZ).strftime("%Y-%m-%d %H:%M")
 
 
 def _render_fit(fit_for_user: str | None) -> str:
@@ -63,6 +64,10 @@ def _render_fit(fit_for_user: str | None) -> str:
 
 def _render_difficulty(difficulty: str | None) -> str:
     return DIFFICULTY_LABELS.get(str(difficulty or "").strip().lower(), difficulty or "未知")
+
+
+def _render_category(category: str | None) -> str:
+    return CATEGORY_LABELS.get(str(category or "").strip().lower(), category or "未知")
 
 
 def render_email(candidates: list[dict[str, Any]]) -> tuple[str, str]:
@@ -76,8 +81,8 @@ def render_email(candidates: list[dict[str, Any]]) -> tuple[str, str]:
         meta_line = (
             f"适配度：{_render_fit(item.get('fit_for_user'))} | "
             f"难度：{_render_difficulty(item.get('difficulty'))} | "
-            f"创建时间：{_render_created_at(item.get('created_at'))} | "
-            f"当前状态：{_render_claim_state(item['claim_state'])}"
+            f"类别：{_render_category(item.get('category'))} | "
+            f"创建时间：{_render_created_at(item.get('created_at'))}"
         )
         lines.extend(
             [

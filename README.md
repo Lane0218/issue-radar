@@ -17,7 +17,7 @@
 - 调用 AI 输出分析结果到 `data/enriched/issues.analyzed.json`
 - 维护 `data/state/analyzed_issues.json`，只分析新 issue
 - 结合你的画像判断适配度与难度
-- 去重后为匹配条件的 issue 生成邮件通知，正文包含适配度、难度和 issue 创建时间（北京时间）
+- 去重后为匹配条件的 issue 生成邮件通知，正文包含适配度、难度、类别和 issue 创建时间
 - 支持 GitHub Actions 在每小时 `07`、`37` 分执行一次
 - `claimed` issue 只写状态、不进入分析结果
 - AI 调用失败时只重试 1 次，仍失败则直接丢弃，不生成保底分析
@@ -70,6 +70,7 @@ python3 scripts/control_monitor.py resume
 - 熟悉语言
 - 可接受方向
 - 偏好难度
+- 偏好的任务风格
 - 不想做的内容
 
 ## GitHub Actions

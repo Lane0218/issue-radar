@@ -1215,6 +1215,30 @@
       "title": "clang 22.1.2 crashes (SIGSEGV) instantiating template method with TVariant in C++26 mode (-std=c++26)",
       "created_at": "2026-04-04T20:44:56Z",
       "claim_state_at_first_seen": "open"
+    },
+    "llvm/llvm-project#189945": {
+      "seen_at": "2026-04-05T03:33:43+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 189945,
+      "title": "Extended double precision support in flang",
+      "created_at": "2026-04-01T11:54:17Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190497": {
+      "seen_at": "2026-04-05T03:33:43+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190497,
+      "title": "clang crashes when using `__annotation` on armv7 with optimizations enabled",
+      "created_at": "2026-04-05T01:07:32Z",
+      "claim_state_at_first_seen": "claimed"
+    },
+    "llvm/llvm-project#190502": {
+      "seen_at": "2026-04-05T03:33:46+00:00",
+      "repository": "llvm/llvm-project",
+      "number": 190502,
+      "title": "[AVX-512] Look for disjoint-or fold into VGF2P8AFFINEQB",
+      "created_at": "2026-04-05T03:05:10Z",
+      "claim_state_at_first_seen": "open"
     }
   }
 }

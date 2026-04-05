@@ -62,6 +62,7 @@ jobs:
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: ${{ steps.notify.outputs.subject }}
           body: ${{ steps.notify.outputs.body }}
+          html_body: ${{ steps.notify.outputs.html_body }}
           to: ${{ secrets.NOTIFY_TO }}
           from: ${{ secrets.NOTIFY_FROM }}
 

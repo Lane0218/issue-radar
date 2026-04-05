@@ -42,6 +42,7 @@ def main() -> int:
             "should_send": False,
             "subject": "[issue-radar] 本轮没有新的高分 issue",
             "body": "本轮没有新的高分 issue 需要通知。\n",
+            "html_body": "<!DOCTYPE html><html lang=\"zh-CN\"><body><p>本轮没有新的高分 issue 需要通知。</p></body></html>\n",
             "candidates": [],
         }
         write_notification_files(args.output_dir, payload)
@@ -51,16 +52,18 @@ def main() -> int:
                 "should_send": "false",
                 "subject": payload["subject"],
                 "body": payload["body"],
+                "html_body": payload["html_body"],
             },
         )
         logger.info("No new notification candidates. Wrote no-op notification payload to %s", args.output_dir)
         return 0
 
-    subject, body = render_email(candidates)
+    subject, body, html_body = render_email(candidates)
     payload = {
         "should_send": True,
         "subject": subject,
         "body": body,
+        "html_body": html_body,
         "candidates": candidates,
     }
     write_notification_files(args.output_dir, payload)
@@ -70,6 +73,7 @@ def main() -> int:
             "should_send": "true",
             "subject": subject,
             "body": body,
+            "html_body": html_body,
         },
     )
     updated_state = update_state(state, candidates)
